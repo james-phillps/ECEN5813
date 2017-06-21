@@ -1,8 +1,8 @@
 
 // #include
-
-main()
-{
+#include <stdio.h>
+#include <stdint.h>
+#include "project1.h"
 
 /*!
 * @enable/disable debug printing with compile time switch
@@ -11,9 +11,11 @@ main()
 * @06-18-17
 */
 
-void print_memory(uint8_t * start, uint32_t length)
+void print_memory(uint8_t * start, uint32_t length){
 
-
+/* ifdef  debugging flag
+This .c file needs to have a .h file counterpart that includes the prototype
+*/
 
 
 }
