@@ -1,7 +1,11 @@
 
-// #include
+#include <stdio.h>
+#include <stdint.h>
+//#include "conversion.h"
+#include "project1.h"
 
-main()
+
+void main()
 {
 /*!
 * @integer to ASCII converter
@@ -10,7 +14,11 @@ main()
 * @06-18-17
 */
 
-uint8_t my_itoa(int32_t data, uint8_t *ptr, uint32_t base)
+uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base) {
+
+	uint8_t length=0;
+	return length;
+}
 
 
 /*!
@@ -20,7 +28,12 @@ uint8_t my_itoa(int32_t data, uint8_t *ptr, uint32_t base)
 * @06-18-17
 */
 
-int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base)
+int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base) {
+
+	int32_t integer = 0;
+	return integer;
+
+}
 
 
 /*!
@@ -30,7 +43,16 @@ int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base)
 * @06-18-17
 */
 
-int8_t big_to_little32(uint32_t * data, uint32_t length)
+int8_t big_to_little32(uint32_t * data, uint32_t length) {
+
+	const char * ErrFunc() {
+	const char *ErrFlag = "Error in big_to_little32";
+	return ErrFlag;
+	}
+
+
+
+}
 
 
 /*!
@@ -40,7 +62,14 @@ int8_t big_to_little32(uint32_t * data, uint32_t length)
 * @06-18-17
 */
 
-int8_t little_to_big32(uint32_t * data, uint32_t length)
+int8_t little_to_big32(uint32_t * data, uint32_t length) {
+
+	const char * ErrFunc() {
+	const char *ErrFlag = "Error in little_to_big32";
+	return ErrFlag;
+	}
+
+}
 
 
 }
