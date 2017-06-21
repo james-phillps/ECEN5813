@@ -12,6 +12,18 @@
  * @brief - Copies values from a source to a destination location
  *Copies values beginning at a source location and ending after a given length
  * @param
+ * Inputs: two byte pointers and length of memory to copy
+ * @return - pointer to destination address
+ */
+uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
+  return dst;
+}
+
+
+/**
+ * @brief - Copies values from a source to a destination location
+ *Copies values beginning at a source location and ending after a given length
+ * @param
  * Inputs: Pointer to memory source, pointer to memory destination, and length of
  * memory to copy
  * @return - pointer to destination address
