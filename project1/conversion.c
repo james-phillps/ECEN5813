@@ -29,9 +29,40 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base) {
 */
 
 int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base) {
+	int32_t integer32 = 0;
+  uint32_t mult = 1;
+  int8_t i =0;
+  int8_t stop = -1;
+  uint8_t upnib = 0;
 
-	int32_t integer = 0;
-	return integer;
+  if (*ptr == 0x2D)
+  {
+    stop = 0;
+    digits++;
+  }
+
+  for (i = (digits - 1); i > stop; i--)
+  {
+    upnib = (*(ptr + i)&0xF0);
+    if ((upnib == 0x40) || (upnib == 0x60))
+    {
+      integer32 += ((*(ptr + i)&0x0F)+0x09)*mult;
+      mult = mult*base;
+    }
+    else
+    {
+      integer32 += (*(ptr + i)&0x0F)*mult;
+      mult = mult*base;
+    }
+  }
+
+  if (*ptr == 0x2D)
+  {
+    integer32 = integer32*-1;
+  }
+
+
+  return integer32;
 
 }
 
