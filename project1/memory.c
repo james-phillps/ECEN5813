@@ -71,6 +71,15 @@ uint8_t * my_memzero(uint8_t * src, size_t length){
  * @return - pointer to source address
  */
 uint8_t * my_reverse(uint8_t * src, size_t length){
+  uint8_t temp = 0;
+  int8_t i = 0;
+
+  for (i = 0; i<length/2; i++)
+  {
+    temp = *(src + i);
+    *(src + i) = *(src + length - 1 - i);
+    *(src + length - 1 - i) = temp;
+  }
   return src;
 }
 
