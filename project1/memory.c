@@ -8,8 +8,7 @@
 
 #include "memory.h"
 
-/**
- * @brief - Copies values from a source to a destination location
+/**9oa source to a destination location
  *Copies values beginning at a source location and ending after a given length
  * @param
  * Inputs: two byte pointers and length of memory to copy
@@ -21,14 +20,58 @@ uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
 
 
 /**
- * @brief - Copies values from a source to a destination location
- *Copies values beginning at a source location and ending after a given length
+ * @brief - Copies values from allocated source to a destination location
+ * Copies values beginning at a source location and ending after a given length
  * @param
  * Inputs: Pointer to memory source, pointer to memory destination, and length of
  * memory to copy
  * @return - pointer to destination address
  */
+
 uint8_t * my_memcpy(uint8_t * src, uint8_t * dst, size_t length){
+/* read data located at src, with length 'length'.
+  store data at src into location at dst*/
+
+int8_t i = 0;
+int8_t val[length];
+uint8_t *SRC;
+uint8_t *DST;
+uint8_t *t;
+
+/* Establish pointer values to increment without destroying src input */
+src = SRC;
+dst = DST;
+
+for (i = 0; i<(length-1); i++)
+{
+  val = *SRC; /* Dereferencing each memory location*/
+  uint8_t *t = (uint8_t*)DST; /* Writing to specific address in DST*/
+  *t = val
+  SRC++;
+  DST++;
+
+}
+
+
+/*
+for (i = 0; i<(length-1); i++)
+{
+  uint8_t *t = (uint8_t*)dst;
+  *t = val[i];
+  dst++;
+}
+
+uint8_t *src;
+uint8_t *dst;
+
+DATA = *src;
+
+uint8_t *dst = (uint8_t*)dst /* storing data into specific location */
+/*
+*dst = DATA;
+ptr = (int8_t*) malloc(size_t length);
+*/
+
   return dst;
 }
 
@@ -101,11 +144,6 @@ int32_t * reserve_words(size_t length){
  * Inputs: Source memory address
  * @return 0 if successful, 1 if not successful
  */
-uint8_t free_words(uint32_t * src){
-  if (src == NULL)
-  {
-    return 1;
-  }
-  free((void *)src);
-  return 0;
+void free_words(uint32_t * src){
+  return;
 }
