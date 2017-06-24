@@ -94,12 +94,13 @@ for (i = 0; i < length/2; i++)
 if (*data == temp_loc) /*If unchanged data (temp_loc) is the same as the changed data, then the endian flip didn't work. */
 {
 printf("Error in little_to_big32. ");
+return 1; /*Error bit: true */
 
 }
 
 else
 {
-return 0;
+return 0; /* Error bit: False */
 }
 
 
