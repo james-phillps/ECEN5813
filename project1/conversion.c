@@ -86,12 +86,22 @@ uint8_t i = 0;
 
 for (i = 0; i < length/2; i++)
 {
-	temp_loc = *((uint8_1*)data + (length - 1 - i)); /* stores MSB in temp_loc */
-	*((uint8_t*))data + (length -1 - i) = *((uint8_t*)data +i); /* writes LSB into original MSB location*/
-	*((uint8_t*))data + i) = temp_loc; /*writes MSB into LSB location*/
+	temp_loc = *(data + i); /* stores MSB in temp_loc */
+	*(data + i) = *((uint8_t*)data +i); /* writes LSB into original MSB location*/
+	*(data + i) = temp_loc; /*writes MSB into LSB location*/
+}
+
+if (*data == temp_loc) /*If unchanged data (temp_loc) is the same as the changed data, then the endian flip didn't work. */
+{
+printf("Error in little_to_big32. ");
 
 }
+
+else
+{
 return 0;
+}
+
 
 }
 
