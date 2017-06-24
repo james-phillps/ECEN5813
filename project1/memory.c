@@ -52,26 +52,6 @@ for (i = 0; i<(length-1); i++)
 
 }
 
-
-/*
-for (i = 0; i<(length-1); i++)
-{
-  uint8_t *t = (uint8_t*)dst;
-  *t = val[i];
-  dst++;
-}
-
-uint8_t *src;
-uint8_t *dst;
-
-DATA = *src;
-
-uint8_t *dst = (uint8_t*)dst /* storing data into specific location */
-/*
-*dst = DATA;
-ptr = (int8_t*) malloc(size_t length);
-*/
-
   return dst;
 }
 
