@@ -115,14 +115,26 @@ return 0; /* Error bit: False */
 */
 
 int8_t little_to_big32(uint32_t * data, uint32_t length) {
+	if(data == NULL)
+	{
+		return 1;
+	}
 
 	uint32_t temp = 0;
+	uint32_t empty_word = 0;
+	uint32_t mask3 = 0xFF000000;
+	uint32_t mask2 = 0x00FF0000;
+	uint32_t mask1 = 0x0000FF00;
+	uint32_t mask0 = 0x000000FF;
 
-  for (int i = 0; i < (length/2); i++)
+  for (int i = 0; i < length; i++)
   {
     temp = *(data + i);
-    *(data + i) = *(data + length - 1 - i);
-    *(data + length - 1 - i) = temp;
+		empty_word = (temp&mask3)>>24;
+		empty_word += (temp&mask0)<<24;
+		empty_word += (temp&mask2)>>8;
+		empty_word += (temp&mask1)<<8;
+		*(data + i) = empty_word;
   }
 
 	return 0;
