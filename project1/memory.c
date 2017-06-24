@@ -101,6 +101,11 @@ int32_t * reserve_words(size_t length){
  * Inputs: Source memory address
  * @return 0 if successful, 1 if not successful
  */
-void free_words(uint32_t * src){
-  return;
+uint8_t free_words(uint32_t * src){
+  if (src == NULL)
+  {
+    return 1;
+  }
+  free((void *)src);
+  return 0;
 }
