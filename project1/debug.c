@@ -12,10 +12,17 @@
 */
 
 void print_memory(uint8_t * start, uint32_t length){
+uint8_t val = 0;
+int8_t i = 0;
+uint8_t *ptr;
 
-/* ifdef  debugging flag
-This .c file needs to have a .h file counterpart that includes the prototype
-*/
+ptr = start;
 
+for (i = 0; i < (length); i++)
+{
+  val = *ptr;
+  printf("bit value = %4x\n", val);
+  ptr++;
+}
 
 }
