@@ -14,6 +14,7 @@
  * Inputs: two byte pointers and length of memory to copy
  * @return - pointer to destination address
  */
+
 uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
 /* copy data located at src, with length 'length'.
 Store data into dst.
@@ -70,8 +71,8 @@ dst = DST;
 for (i = 0; i<(length-1); i++)
 {
   val = *SRC; /* Dereferencing each memory location*/
-  //uint8_t *t = (uint8_t*)DST; /* Writing to specific address DST*/
-  //*t = val;
+  /*uint8_t *t = (uint8_t*)DST; /* Writing to specific address DST*/
+  /*t = val; */
   *DST = val;
 
   SRC++;
@@ -90,6 +91,7 @@ for (i = 0; i<(length-1); i++)
  *  Inputs: Pointer to memory source, length of memory block, and value
  *  @return - pointer to source address
  */
+
 int8_t * my_memset(uint8_t * src, size_t length, uint8_t value){
   int8_t i = 0;
 
@@ -97,18 +99,24 @@ int8_t * my_memset(uint8_t * src, size_t length, uint8_t value){
   {
     *(src + i) = value;
   }
-  //This is odd that you pass the pointer as unsigned, but pass it back as signed
+  /* This is odd that you pass the pointer as unsigned, but pass it back as signed */
   return src;
 }
 
 /**
- * @brief - Sets all memory locationsd to zero
+ * @brief - Sets all memory locations to zero
  * Assigns a zero value to a block of memory
  * @param
  * Inputs: Pointer to memory source, size of memory block
  * @return - pointer to source address
  */
 uint8_t * my_memzero(uint8_t * src, size_t length){
+
+  for (i = 0; i<length; i++) /* cycle through memory of specified length */
+  {
+    *(src + i) = 0; 
+  }
+
   return src;
 }
 
@@ -141,7 +149,22 @@ uint8_t * my_reverse(uint8_t * src, size_t length){
  * @return - 0 if successful, 1 if not successful
  */
 int32_t * reserve_words(size_t length){
-  return 0;
+  /* length specified in words, malloc takes length in bits */
+  uint8_t lng;
+  uint8_t *ptr;
+
+  lng = 32*length; /*convert word length to bits for input into malloc*/
+  ptr = (int8_t*)malloc(lng);
+
+
+  if(ptr == NULL) /* error check */
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
 }
 
 /**
@@ -152,5 +175,15 @@ int32_t * reserve_words(size_t length){
  * @return 0 if successful, 1 if not successful
  */
 void free_words(uint32_t * src){
-  return;
+
+  free(src);
+
+  if(src == NULL) /* error check */
+  {
+    return 0;
+  }
+  else
+  {
+    return 1;
+  }
 }
