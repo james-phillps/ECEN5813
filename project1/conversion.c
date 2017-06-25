@@ -75,34 +75,29 @@ int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base) {
 
 int8_t big_to_little32(uint32_t * data, uint32_t length) {
 
-	/*
-	const char * ErrFunc() {
-	const char *ErrFlag = "Error in big_to_little32";
-	return ErrFlag;
-}
-*/
-uint8_t temp_loc = 0; /* temporary location to store byte*/
-uint8_t i = 0;
+	if(data == NULL)
+	{
+		return 1;
+	}
 
-for (i = 0; i < length/2; i++)
-{
-	temp_loc = *(data + i); /* stores MSB in temp_loc */
-	*(data + i) = *((uint8_t*)data +i); /* writes LSB into original MSB location*/
-	*(data + i) = temp_loc; /*writes MSB into LSB location*/
-}
+	uint32_t temp = 0; /* create space to store data as each new word is read*/
+	uint32_t empty_word = 0;
+	uint32_t mask3 = 0xFF000000;
+	uint32_t mask2 = 0x00FF0000;
+	uint32_t mask1 = 0x0000FF00;
+	uint32_t mask0 = 0x000000FF;
 
-if (*data == temp_loc) /*If unchanged data (temp_loc) is the same as the changed data, then the endian flip didn't work. */
-{
-printf("Error in little_to_big32. ");
-return 1; /*Error bit: true */
+  for (int i = 0; i < length; i++) /* cycle through amount of data specified in "length" */
+  {
+    temp = *(data + i);
+		empty_word = (temp&mask3)>>24; /* mapping shifted data from memory location into empty word */
+		empty_word += (temp&mask0)<<24;
+		empty_word += (temp&mask2)>>8;
+		empty_word += (temp&mask1)<<8;
+		*(data + i) = empty_word;  /* Saving flipped (endian) word to memory location */
+  }
 
-}
-
-else
-{
-return 0; /* Error bit: False */
-}
-
+	return 0;
 
 }
 
