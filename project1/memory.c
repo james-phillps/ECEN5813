@@ -15,6 +15,30 @@
  * @return - pointer to destination address
  */
 uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
+/* copy data located at src, with length 'length'.
+Store data into dst.
+Free memory at src.
+Assumes memory already allocated at dst. */
+
+int8_t i = 0;
+int8_t val[length];
+uint8_t *SRC;
+uint8_t *DST;
+uint8_t *t;
+
+/* Establishes pointer values to increment without destroying src input */
+src = SRC;
+dst = DST;
+
+for (i = 0; i<(length-1); i++){
+  val = *SRC; /* Dereferencing source memory */
+  *DST = val; /* Writing to destination address*/
+  void free(void *SRC);
+
+  SRC++;
+  DST++;
+}
+
   return dst;
 }
 
@@ -30,7 +54,8 @@ uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
 
 uint8_t * my_memcpy(uint8_t * src, uint8_t * dst, size_t length){
 /* read data located at src, with length 'length'.
-  store data at src into location at dst*/
+  copy data to ocation at dst
+  Assumes memory already allocated at dst. */
 
 int8_t i = 0;
 int8_t val[length];
@@ -45,8 +70,10 @@ dst = DST;
 for (i = 0; i<(length-1); i++)
 {
   val = *SRC; /* Dereferencing each memory location*/
-  uint8_t *t = (uint8_t*)DST; /* Writing to specific address in DST*/
-  *t = val
+  //uint8_t *t = (uint8_t*)DST; /* Writing to specific address DST*/
+  //*t = val;
+  *DST = val;
+
   SRC++;
   DST++;
 
