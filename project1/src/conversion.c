@@ -87,7 +87,7 @@ int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base) {
   if (*ptr == 0x2D)
   {
     stop = 0;
-    digits++;
+    //digits++;
   }
 
   for (i = (digits - 1); i > stop; i--)
