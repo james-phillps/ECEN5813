@@ -23,6 +23,7 @@
 #include "../include/common/project1.h"
 #include "../include/common/memory.h"
 #include "../include/common/conversion.h"
+#include "../include/common/debug.h"
 
 int8_t test_data1() {
   uint8_t * ptr;
