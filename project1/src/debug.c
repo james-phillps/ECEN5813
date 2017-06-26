@@ -12,17 +12,20 @@
 */
 
 void print_memory(uint8_t * start, uint32_t length){
-uint8_t val = 0;
-int8_t i = 0;
-uint8_t *ptr;
+  #ifdef VERBOSE
+  uint8_t val = 0;
+  int8_t i = 0;
+  uint8_t *ptr;
 
-ptr = start;
+  ptr = start;
 
-for (i = 0; i < (length); i++)
-{
-  val = *ptr;
-  printf("bit value = %4x\n", val);
-  ptr++;
-}
+  for (i = 0; i < (length); i++)
+  {
+    val = *ptr;
+    printf("bit value = %4x\n", val);
+    ptr++;
+  }
+  #endif
+  return;
 
 }
