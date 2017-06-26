@@ -4,7 +4,7 @@ include sources.mk
 CC = gcc
 CFLAGS= -Wall -Werror -g -std=c99 -DVERBOSE -DPROJECT1  #Compile time switch for project
 
-LDFLAGS= -O0 -Xlinker -Map = project1.map  #linker generates .map file
+LDFLAGS= -O0 -Xlinker -Map=project1.map  #linker generates .map file
 
 
 ifeq ($(PLATFORM), HOST)
@@ -23,36 +23,40 @@ endif
 
 ifeq ($(PLATFORM), KL25Z)
      CC=arm-none-eabi-gcc
-		 CFLAGS= -Wall    \
-		         -Werror  \
+     CFLAGS= -Wall    \
+		 				 -Werror  \
 						 -g       \
 						 -std=c99 \
 						 -DPROJECT1 \
-						 -mcpu=cortex-m0plus \ #Specifies name of tgt ARM processor
-						 -mthumb \  #Use Thumb instruction set
-						 -march=armv6 \ #Specifies tgt ARM architecture, affects asm instructions
-						 -mfloat-abi=soft \ #Which floating point ABI: soft, softfp, hard
-						 -mfpu=fpv4-sp-d16 \
+						 -mcpu=cortex-m0plus -mthumb -mfloat-abi=soft -mfpu=fpv4-sp-d16 \
 						 --specs=nosys.specs
      LDFLAGS= -O0 \
-		          -Xlinker -Map=project1.map \
-							-T "MKL25Z128xxx_flash.ld"
+		          -Xlinker -Map=project1.map  \
+							-T "../platform/MKL25Z128xxx4_flash.ld"
+     SRCS= \
+		 ./main.c \
+		 ./conversion.c \
+		 ./memory.c \
+		 ./project1.c \
+		 ./debug.c \
+		 ./system_MKL25Z4.c \
+		 ./startup_MKL25Z4.S
 endif
 
-$(TARGET) : $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^
+$(TARGET) : $(OBJS) $(OBJS_A)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
 
-%.o: %.c
-	$(CC) -c $(CFLAGS) -o $@ $<
+%.o: %.c %.S
+	$(CC) -c $(CFLAGS) $(LDFLAGS) -o $@ $^
 
 %.s: %.c
-	$(CC) -S $(CFLAGS) -o $@ $<
+	$(CC) -S $(CFLAGS) $(LDFLAGS) -o $@ $<
 
 %.i: %.c
-	$(CC) -E $(CFLAGS) -o $@ $<
+	$(CC) -E $(CFLAGS) $(LDFLAGS) -o $@ $<
 
 %.d: %.c
-	$(CC) -MM $(CFLAGS) -o $@ $<
+	$(CC) -MM $(CFLAGS) $(LDFLAGS) -o $@ $<
 
 .PHONY: compile-all asm-all ppr-all dep-all build clean
 
