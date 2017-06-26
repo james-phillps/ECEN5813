@@ -7,6 +7,7 @@
  */
 
 #include <stdint.h>
+#include <stddef.h>
 
 uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length);
  uint8_t * my_memcpy(uint8_t * src, uint8_t * dst, size_t length);
