@@ -7,6 +7,7 @@
  */
 
 #include "../include/common/memory.h"
+#include <stdlib.h>
 
 /**9oa source to a destination location
  *Copies values beginning at a source location and ending after a given length
@@ -112,6 +113,7 @@ int8_t * my_memset(uint8_t * src, size_t length, uint8_t value){
  */
 uint8_t * my_memzero(uint8_t * src, size_t length){
 
+  uint8_t i = 0;
   for (i = 0; i<length; i++) /* cycle through memory of specified length */
   {
     *(src + i) = 0;
@@ -176,14 +178,6 @@ int32_t * reserve_words(size_t length){
  */
 void free_words(uint32_t * src){
 
-  free(src);
-
-  if(src == NULL) /* error check */
-  {
-    return 0;
-  }
-  else
-  {
-    return 1;
-  }
+  free((void *)src);
+  return;
 }
