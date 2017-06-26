@@ -76,7 +76,7 @@ uint8_t * my_memcpy(uint8_t * src, uint8_t * dst, size_t length){
  *  @return - pointer to source address
  */
 
-int8_t * my_memset(uint8_t * src, size_t length, uint8_t value){
+uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value){
   int8_t i = 0;
 
   for (i = 0; i < length; i++)
