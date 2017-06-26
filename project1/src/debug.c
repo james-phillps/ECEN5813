@@ -11,7 +11,7 @@
 * @06-18-17
 */
 
-void print_memory(uint8_t * start, uint32_t length){
+void print_array(uint8_t * start, uint32_t length){
   #ifdef VERBOSE
   uint8_t val = 0;
   int8_t i = 0;
