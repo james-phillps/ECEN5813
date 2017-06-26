@@ -22,26 +22,24 @@ Store data into dst.
 Free memory at src.
 Assumes memory already allocated at dst. */
 
-int8_t i = 0;
-int8_t val[length];
-uint8_t *SRC;
-uint8_t *DST;
-uint8_t *t;
+uint8_t i = 0;
+int32_t * tempptr;
 
-/* Establishes pointer values to increment without destroying src input */
-src = SRC;
-dst = DST;
-
-for (i = 0; i<(length-1); i++){
-  val = *SRC; /* Dereferencing source memory */
-  *DST = val; /* Writing to destination address*/
-  void free(void *SRC);
-
-  SRC++;
-  DST++;
+tempptr = (int32_t *)malloc(sizeof(int)*length);
+for (i = 0; i < length; i++)
+{
+  *(tempptr + i) = *(src +i);
 }
 
-  return dst;
+for (i = 0; i < length; i++)
+{
+  *(dst + i) = *(tempptr + i);
+}
+
+free((void *)tempptr);
+
+
+return dst;
 }
 
 
@@ -59,27 +57,12 @@ uint8_t * my_memcpy(uint8_t * src, uint8_t * dst, size_t length){
   copy data to ocation at dst
   Assumes memory already allocated at dst. */
 
-int8_t i = 0;
-int8_t val[length];
-uint8_t *SRC;
-uint8_t *DST;
-uint8_t *t;
+  int8_t i = 0;
 
-/* Establish pointer values to increment without destroying src input */
-src = SRC;
-dst = DST;
-
-for (i = 0; i<(length-1); i++)
-{
-  val = *SRC; /* Dereferencing each memory location*/
-  /*uint8_t *t = (uint8_t*)DST; /* Writing to specific address DST*/
-  /*t = val; */
-  *DST = val;
-
-  SRC++;
-  DST++;
-
-}
+  for (i = 0; i < length; i++)
+  {
+    *(dst + i) = *(src + i);
+  }
 
   return dst;
 }
@@ -151,22 +134,9 @@ uint8_t * my_reverse(uint8_t * src, size_t length){
  * @return - 0 if successful, 1 if not successful
  */
 int32_t * reserve_words(size_t length){
-  /* length specified in words, malloc takes length in bits */
-  uint8_t lng;
-  uint8_t *ptr;
-
-  lng = 32*length; /*convert word length to bits for input into malloc*/
-  ptr = (int8_t*)malloc(lng);
-
-
-  if(ptr == NULL) /* error check */
-  {
-    return 1;
-  }
-  else
-  {
-    return 0;
-  }
+  int32_t * ptr;
+  ptr = (int32_t *)malloc(sizeof(int)*length);
+  return ptr;
 }
 
 /**
