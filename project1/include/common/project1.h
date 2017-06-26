@@ -129,6 +129,6 @@ int8_t test_memset();
  * @return void
  */
 int8_t test_reverse();
-void course1(void)
+void course1(void);
 
 #endif /* __PROJECT1_H__ */
