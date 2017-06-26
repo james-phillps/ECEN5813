@@ -192,7 +192,7 @@ typedef enum IRQn {
 #define __NVIC_PRIO_BITS               2         /**< Number of priority bits implemented in the NVIC */
 #define __Vendor_SysTickConfig         0         /**< Vendor specific implementation of SysTickConfig is defined */
 
-#include "core_cm0plus.h"              /* Core Peripheral Access Layer */
+#include "../CMSIS/core_cm0plus.h"              /* Core Peripheral Access Layer */
 #include "system_MKL25Z4.h"            /* Device specific configuration file */
 
 /*!

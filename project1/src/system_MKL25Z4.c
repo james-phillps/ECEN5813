@@ -97,7 +97,7 @@
  */
 
 #include <stdint.h>
-#include "MKL25Z4.h"
+#include "../include/kl25z/MKL25Z4.h"
 
 
 

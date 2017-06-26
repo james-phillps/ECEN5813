@@ -2,7 +2,7 @@
 // #include
 #include <stdio.h>
 #include <stdint.h>
-#include "project1.h"
+#include "../include/common/debug.h"
 
 /*!
 * @enable/disable debug printing with compile time switch

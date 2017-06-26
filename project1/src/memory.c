@@ -6,7 +6,7 @@
  * @date 6/18/2017
  */
 
-#include "memory.h"
+#include "../include/common/memory.h"
 
 /**9oa source to a destination location
  *Copies values beginning at a source location and ending after a given length
@@ -114,7 +114,7 @@ uint8_t * my_memzero(uint8_t * src, size_t length){
 
   for (i = 0; i<length; i++) /* cycle through memory of specified length */
   {
-    *(src + i) = 0; 
+    *(src + i) = 0;
   }
 
   return src;

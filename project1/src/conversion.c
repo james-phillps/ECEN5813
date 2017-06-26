@@ -15,6 +15,8 @@ integer outputs.  String ends with a null terminate.
 * @06-18-17
 */
 
+#include "../include/common/conversion.h"
+
 uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base) {
 
 	/* Input data is in hex.  Convert this to the specified base and reference
