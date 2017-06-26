@@ -8,15 +8,54 @@
 
 /*!
 * @integer to ASCII converter
-* Converts a standard (signed) integer type to ASCII string and saves to a memory location specified with an input pointer.  Can support bases 2 to 16 integer inputs.  String ends with a null terminate.
+* Converts a standard (signed) integer type to ASCII string and saves to a
+memory location specified with an input pointer.  Can support bases 2 to 16
+integer outputs.  String ends with a null terminate.
 * @Jordan Wachs
 * @06-18-17
 */
 
 uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base) {
 
-	uint8_t length=0;
-	return length;
+	/* Input data is in hex.  Convert this to the specified base and reference
+	ASCII table to store as ascii characters */
+
+	/* if value:0-9, upper nibble = 0b0011, lower nibble = value 0b0000 - 0b1001
+
+	if value: a-f, upper nibble = 0b0110 , lower nibble = value minus 0b1000
+		if hex value :0-9*/
+
+		/* First convert from base n to base 10*/
+
+		uint32_t i = 0;
+		uint32_t divisor;
+		uint32_t array[16];
+		uint32_t data;
+	  uint32_t dec;
+		int8_t *ptr2;
+		uint32_t nib1;
+		uint32_t nib2;
+
+		/* convert hex to decimal*/
+
+		ptr2 = ptr++;
+
+		nib1 = *ptr;
+		nib2 = *ptr2;
+
+		dec = 16*nib1 + nib2;
+
+		/* Takes decimal and converts to arbitrary base 2-16 */
+		divisor = base*base*base*base*base*base*base; /* There has to be a better way w/0 math.h? */
+		for (i = 7; i>=0; i--){
+
+			array[i] = dec/divisor;
+			dec = dec%divisor;
+
+			divisor = divisor/base;
+		}
+
+
 }
 
 
