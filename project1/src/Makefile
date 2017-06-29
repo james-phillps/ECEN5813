@@ -2,7 +2,7 @@ include sources.mk
 
 #Defaults
 CC = gcc
-CFLAGS= -Wall -Werror -g -std=c99 -DVERBOSE -DPROJECT1  #Compile time switch for project
+CFLAGS= -Wall -Werror -g -std=c99 -DPROJECT1  #Compile time switch for project
 
 LDFLAGS= -O0 -Xlinker -Map=project1.map  #linker generates .map file
 
@@ -46,6 +46,7 @@ endif
 $(TARGET) : $(OBJS) $(OBJS_A)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
 
+
 %.o: %.c %.S
 	$(CC) -c $(CFLAGS) $(LDFLAGS) -o $@ $^
 
@@ -58,10 +59,15 @@ $(TARGET) : $(OBJS) $(OBJS_A)
 %.d: %.c
 	$(CC) -MM $(CFLAGS) $(LDFLAGS) -o $@ $<
 
-.PHONY: compile-all asm-all ppr-all dep-all build clean
+.PHONY: compile-all asm-all ppr-all dep-all build clean asm-dump
+
+asm-dump: project1.elf
+	objdump -SD $< > projec1.dump
+
 
 compile-all : $(OBJS)
 asm-all     : $(ASMS)
+#asm-dump    : $(ASM_DUMP)
 ppr-all     : $(PPRS)
 dep-all     : $(DEPS)
 build       : $(TARGET)
