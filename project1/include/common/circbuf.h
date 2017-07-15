@@ -6,6 +6,23 @@
  * @date 6/28/2017
  */
 
+ typedef struct{
+     uint8_t *buff;
+     uint16_t head;
+     uint16_t tail;
+     uint16_t size;
+     uint16_t count;
+ } CB_t;
+
+ //typedef struct CB_t CB_t;
+
+ typedef enum{
+     Success,
+     BuffFull,
+     BuffEmpty,
+     NullError
+ } CB_status_t;
+
 
  /**@brief Adds data to circular buffer
   *Given a pointer to buffer and data to add, adds data to buffere and returns
@@ -14,7 +31,7 @@
   * Inputs: Pointer to circular buffer, data to be added to the circular buffer
   * @return - Enum specifying success/failure
   */
-<CB enum type> CB_buffer_add_item(<buffer to add to>, <data to add>);
+CB_status_t CB_buffer_add_item(CB_t *buffer, uint8_t data);
 
   /**@brief Removes data from circular buffer
    *Given a pointer to buffer and data to add, adds data to buffere and returns
@@ -24,7 +41,7 @@
    * Variable to store and return the removed item from buffer
    * @return - Enum specifying success/failure
    */
-<CB enum type> CB_buffer_remove_item(<buffer to remove from>, <variable to store data removed>);
+CB_status_t CB_buffer_remove_item(CB_t *buffer, uint8_t *data);
 
 /**@brief Checks if buffer is full
  *Checks if the buffer passed is full and returns status or error codes
@@ -32,7 +49,7 @@
  * Inputs: Circular buffer to check
  * @return - Status of circular buffer or error codes
  */
-<CB enum type> CB_is_full(<buffer to check>);
+CB_status_t CB_is_full(CB_t *buffer);
 
 /**@brief Checks if buffer is empty
  *Checks if the buffer passed is empty and returns status or error codes
@@ -40,16 +57,16 @@
  * Inputs: Circular buffer to check
  * @return - Status of circular buffer or error codes
  */
-<CB enum type> CB_is_empty(<buffer to check>);
+CB_status_t CB_is_empty(CB_t *buffer);
 
-/**@brief Peeks into buffer
+/**@brief Peeksinto buffer
  *Peaks at head of circular buffer
  * @param
  * Inputs: Pointer to the circular buffer to peak into, and the position relative
  * to the head of the buffer
  * @return - Status of circular buffer or error codes
  */
-<CB enum type> CB_peek(<buffer to peak into>, <position to peek>);
+uint8_t CB_peek(CB_t *buffer, uint16_t Pos);
 
 /**@brief Checks if buffer is full
  *Checks if the buffer passed is full and returns status or error codes
@@ -58,12 +75,11 @@
  * in buffer
  * @return - Status of circular buffer or error codes
  */
-<CB enum type> CB_init(<poionter of buffer type>, <length of buffer>);
-
+CB_status_t CB_init(CB_t *buffer, uint16_t length);
 /**@brief Checks if buffer is full
  *Checks if the buffer passed is full and returns status or error codes
  * @param
  * Inputs: Buffer to be destroyed
  * @return - Status of circular buffer or error codes
  */
-<CB enum type> CB_destroy(<pointer of buffer type>);
+CB_status_t CB_destroy(CB_t *buffer);

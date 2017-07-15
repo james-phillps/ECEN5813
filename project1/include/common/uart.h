@@ -6,13 +6,15 @@
  * @date 6/28/2017
  */
 
+ #include <stdint.h>
+
  /**@brief Configures UART Settings
   * Configures UART settings
   * @param
   * Inputs: None
   * @return
   */
-<type> UART_configure();
+void UART_configure(void);
 
 /**@brief Sends data over UART
  * Sends a single byte over the UART
@@ -20,7 +22,7 @@
  * Inputs: Single byte
  * @return
  */
-<type> UART_send(uint8_t * byte);
+void UART_send(uint8_t * data);
 
 /**@brief Sends data over UART
  * Sends a single byte over the UART
@@ -28,7 +30,7 @@
  * Inputs: pointer to a block of data, number of items to transmit
  * @return
  */
-<type> UART_send_n(uint8_t * byte, size_t length);
+void UART_send_n(uint8_t * data, uint8_t length);
 
 /**@brief Sends data over UART
  * Sends a single byte over the UART
@@ -36,4 +38,8 @@
  * Inputs: Single byte
  * @return
  */
-<type> UART_receive(uint8_t * byte, size_t length);
+void UART_receive(uint8_t * data);
+
+void UART_receive_n(uint8_t * data, uint8_t length);
+
+void UART0_IRQHandler(void);
