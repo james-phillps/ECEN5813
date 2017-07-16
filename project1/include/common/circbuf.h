@@ -5,11 +5,12 @@
  * @author James Phillips
  * @date 6/28/2017
  */
+#include <stdint.h>
 
  typedef struct{
      uint8_t *buff;
-     uint16_t head;
-     uint16_t tail;
+     uint8_t head;
+     uint8_t tail;
      uint16_t size;
      uint16_t count;
  } CB_t;
@@ -21,7 +22,7 @@
      BuffFull,
      BuffEmpty,
      NullError
- } CB_status_t;
+ } CB_status_e;
 
 
  /**@brief Adds data to circular buffer
@@ -31,7 +32,7 @@
   * Inputs: Pointer to circular buffer, data to be added to the circular buffer
   * @return - Enum specifying success/failure
   */
-CB_status_t CB_buffer_add_item(CB_t *buffer, uint8_t data);
+CB_status_e CB_buffer_add_item(CB_t *buf_struct, uint8_t data);
 
   /**@brief Removes data from circular buffer
    *Given a pointer to buffer and data to add, adds data to buffere and returns
@@ -41,7 +42,7 @@ CB_status_t CB_buffer_add_item(CB_t *buffer, uint8_t data);
    * Variable to store and return the removed item from buffer
    * @return - Enum specifying success/failure
    */
-CB_status_t CB_buffer_remove_item(CB_t *buffer, uint8_t *data);
+CB_status_e CB_buffer_remove_item(CB_t *buf_struct, uint8_t *data);
 
 /**@brief Checks if buffer is full
  *Checks if the buffer passed is full and returns status or error codes
@@ -49,7 +50,7 @@ CB_status_t CB_buffer_remove_item(CB_t *buffer, uint8_t *data);
  * Inputs: Circular buffer to check
  * @return - Status of circular buffer or error codes
  */
-CB_status_t CB_is_full(CB_t *buffer);
+CB_status_e CB_is_full(CB_t *buf_struct);
 
 /**@brief Checks if buffer is empty
  *Checks if the buffer passed is empty and returns status or error codes
@@ -57,7 +58,7 @@ CB_status_t CB_is_full(CB_t *buffer);
  * Inputs: Circular buffer to check
  * @return - Status of circular buffer or error codes
  */
-CB_status_t CB_is_empty(CB_t *buffer);
+CB_status_e CB_is_empty(CB_t *buf_struct);
 
 /**@brief Peeksinto buffer
  *Peaks at head of circular buffer
@@ -66,7 +67,7 @@ CB_status_t CB_is_empty(CB_t *buffer);
  * to the head of the buffer
  * @return - Status of circular buffer or error codes
  */
-uint8_t CB_peek(CB_t *buffer, uint16_t Pos);
+uint8_t CB_peek(CB_t *buf_struct, uint8_t Pos);
 
 /**@brief Checks if buffer is full
  *Checks if the buffer passed is full and returns status or error codes
@@ -75,11 +76,11 @@ uint8_t CB_peek(CB_t *buffer, uint16_t Pos);
  * in buffer
  * @return - Status of circular buffer or error codes
  */
-CB_status_t CB_init(CB_t *buffer, uint16_t length);
+CB_status_e CB_init(CB_t **buf_struct, uint16_t length);
 /**@brief Checks if buffer is full
  *Checks if the buffer passed is full and returns status or error codes
  * @param
  * Inputs: Buffer to be destroyed
  * @return - Status of circular buffer or error codes
  */
-CB_status_t CB_destroy(CB_t *buffer);
+CB_status_e CB_destroy(CB_t *buf_struct);

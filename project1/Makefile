@@ -33,8 +33,7 @@ CFLAGS += -I $(CMOCKA_INCLUDE_DIR)
 # library
 #
 LIB_SRCS = \
-	./src/conversion.c \
-	./src/memory.c
+	./src/circbuf.c
 
 LIB_OBJS = $(LIB_SRCS:%.c=%.o)
 
@@ -54,7 +53,7 @@ EXE = main.out
 # tests
 #
 TEST_QUADRATIC_SRCS = \
-	./src/test_conversion.c
+	./src/test_circbuf.c
 
 TEST_QUADRATIC_OBJS = $(TEST_QUADRATIC_SRCS:%.c=%.o)
 
