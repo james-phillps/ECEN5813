@@ -33,7 +33,7 @@
    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
    POSSIBILITY OF SUCH DAMAGE.
    ---------------------------------------------------------------------------*/
-
+#include "../kl25z/MKL25Z4.h"
 
 #if defined ( __ICCARM__ )
  #pragma system_include  /* treat file as system include file for MISRA check */

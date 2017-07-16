@@ -10,27 +10,30 @@
 #include <stdlib.h>
 
 uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
-/* copy data located at src, with length 'length'.
-Store data into dst.
-Free memory at src.
-Assumes memory already allocated at dst. */
+  //Check for null pointers
+  if ((src == NULL) || (dst == NULL)){
+    return NULL;
+  }
+
+  if (src == dst){
+    return dst;
+  }
 
   uint8_t i = 0;
-  int32_t * tempptr;
+  ptrdiff_t diff = dst - src;
 
-  tempptr = (int32_t *)malloc(sizeof(int)*length);
-  for (i = 0; i < length; i++)
-  {
-    *(tempptr + i) = *(src +i);
+  if (abs(diff) < length){     //src and dst overlap
+    if (diff < 0){        //end of dst writes on beginning of src
+      dst = dst - (length - diff);
+    }
+    else if (diff > 0){   //beginning of dst writes on end of src
+      dst = dst + (length - diff);
+    }
   }
 
-  for (i = 0; i < length; i++)
-  {
-    *(dst + i) = *(tempptr + i);
+  for (i = 0; i<length; i++){
+    *(dst + i) = *(src + i);
   }
-
-  free((void *)tempptr);
-
 
   return dst;
 }
@@ -51,6 +54,11 @@ uint8_t * my_memcpy(uint8_t * src, uint8_t * dst, size_t length){
 }
 
 uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value){
+  //Check for null pointer
+  if (src == 0){
+    return src;
+  }
+
   int8_t i = 0;
 
   for (i = 0; i < length; i++)
@@ -62,6 +70,10 @@ uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value){
 }
 
 uint8_t * my_memzero(uint8_t * src, size_t length){
+//Check for null pointer
+  if(src == 0){
+    return src;
+  }
 
   uint8_t i = 0;
   for (i = 0; i<length; i++) /* cycle through memory of specified length */
@@ -73,6 +85,10 @@ uint8_t * my_memzero(uint8_t * src, size_t length){
 }
 
 uint8_t * my_reverse(uint8_t * src, size_t length){
+  //Check for null pointers
+  if (src == NULL){
+    return NULL;
+  }
   uint8_t temp = 0;
   int8_t i = 0;
 
@@ -96,11 +112,11 @@ void free_words(uint32_t * src){
   free((void *)src);
   return;
 }
-
+/*
 uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length){
    return dst;
 }
 
 uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value){
    return src;
-}
+}*/
