@@ -33,7 +33,8 @@ CFLAGS += -I $(CMOCKA_INCLUDE_DIR)
 # library
 #
 LIB_SRCS = \
-	./src/conversion.c
+	./src/conversion.c \
+	./src/memory.c
 
 LIB_OBJS = $(LIB_SRCS:%.c=%.o)
 
