@@ -1,13 +1,21 @@
+/**
+ * @file project2.c
+ * @brief Routines to run project2
+ * Holds project2() for processing and statistics dump using printf
+ * @author James Phillips
+ * @date 7/17/2017
+ */
+
 #include <stdio.h>
 #include "../include/common/circbuf.h"
 
 CB_t *buf_struct = NULL;
 uint16_t length = 256;
 //Stats variables
-uint32_t alpha = 0;
-uint32_t numeral = 0;
-uint32_t punct = 0;
-uint32_t misc = 0;
+int alpha = 0;
+int numeral = 0;
+int punct = 0;
+int misc = 0;
 
 void project2(void){
   uint8_t data = 0;

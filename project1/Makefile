@@ -18,7 +18,7 @@ ifeq ($(PLATFORM),BBB)
 						 -g      \
 						 -std=c99 \
 						 -DVERBOSE \
-						 -DPROJECT1
+						 -DPROJECT2
 endif
 
 ifeq ($(PLATFORM), KL25Z)
@@ -32,7 +32,7 @@ ifeq ($(PLATFORM), KL25Z)
 						 --specs=nosys.specs
      LDFLAGS= -O0 \
 		          -Xlinker -Map=project1.map  \
-							-T "../platform/MKL25Z128xxx4_flash.ld"
+							-T "./platform/MKL25Z128xxx4_flash.ld"
      SRCS+= $(SRCS_PATH)/sytem_MKL25Z4.c $(SRCS_PATH)/startup_MKL25Z4.S
 		 SRCS+= $(SRCS_PATH)/uart.c
 endif
@@ -43,7 +43,7 @@ $(TARGET) : $(OBJS)
 $(TEST) : $(OBJS)
 	cc -std=c99 -Wall -Werror -g -O0
 
-%.o: %.c
+%.o: %.c %.S
 	$(CC) -c $(CFLAGS) $(LDFLAGS) -o $@ $^
 
 %.s: %.c
