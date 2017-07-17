@@ -1,92 +1,72 @@
-CC = cc
-CFLAGS = -std=c99 -Wall -Werror -g -O0
+include sources.mk
 
-#
-# build third-party libraries
-#
-SUBDIRS = 3rd-party
+#Defaults
+CC = gcc
+CFLAGS= -Wall -Werror -g -std=c99 -DPROJECT2  #Compile time switch for project
 
-ifdef SUBDIRS
-.PHONY : $(SUBDIRS)
-$(SUBDIRS) :
-	@if [ -d $@ ]; then \
-		$(MAKE) --no-print-directory --directory=$@ \
-			CC=$(CC) CFLAGS="$(CFLAGS)" $(MAKECMDGOALS); \
-	fi
+LDFLAGS= -O0 -Xlinker -Map=project1.map  #linker generates .map file
+
+
+ifeq ($(PLATFORM), HOST)
+  CC=gcc
 endif
 
+ifeq ($(PLATFORM),BBB)
+     CC=arm-linux-gnueabihf-gcc
+		 CFLAGS= -Wall  \
+		         -Werror \
+						 -g      \
+						 -std=c99 \
+						 -DVERBOSE \
+						 -DPROJECT1
+endif
 
-THIRD_PARTY_DIR = 3rd-party
-CMOCKA_INCLUDE_DIR = $(THIRD_PARTY_DIR)/build-Debug/include
-CMOCKA_LIBRARY = $(THIRD_PARTY_DIR)/build-Debug/lib/libcmocka.a
+ifeq ($(PLATFORM), KL25Z)
+     CC=arm-none-eabi-gcc
+     CFLAGS= -Wall    \
+		 				 -Werror  \
+						 -g       \
+						 -std=c99 \
+						 -DPROJECT1 \
+						 -mcpu=cortex-m0plus -mthumb -mfloat-abi=soft -mfpu=fpv4-sp-d16 \
+						 --specs=nosys.specs
+     LDFLAGS= -O0 \
+		          -Xlinker -Map=project1.map  \
+							-T "../platform/MKL25Z128xxx4_flash.ld"
+     SRCS+= $(SRCS_PATH)/sytem_MKL25Z4.c $(SRCS_PATH)/startup_MKL25Z4.S
+		 SRCS+= $(SRCS_PATH)/uart.c
+endif
 
-cmocka : $(SUBDIRS)
+$(TARGET) : $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
 
-CFLAGS += -I $(CMOCKA_INCLUDE_DIR)
+$(TEST) : $(OBJS)
+	cc -std=c99 -Wall -Werror -g -O0
 
-#
-# quick and dirty build rules to demonstrate testing, not good build
-# system practices.
-#
+%.o: %.c
+	$(CC) -c $(CFLAGS) $(LDFLAGS) -o $@ $^
 
-#
-# library
-#
-LIB_SRCS = \
-	./src/circbuf.c
+%.s: %.c
+	$(CC) -S $(CFLAGS) $(LDFLAGS) -o $@ $<
 
-LIB_OBJS = $(LIB_SRCS:%.c=%.o)
+%.i: %.c
+	$(CC) -E $(CFLAGS) $(LDFLAGS) -o $@ $<
 
-LIB_HEADERS = $(LIB_SRCS:%.c=%.h)
+%.d: %.c
+	$(CC) -MM $(CFLAGS) $(LDFLAGS) -o $@ $<
 
-LIB = libutils.a
+.PHONY: compile-all asm-all ppr-all dep-all build clean unit_tests
 
-#
-# main executable
-#
-EXE_SRCS = main.c
-EXE_OBJS = $(EXE_SRCS:%.c=%.o)
-
-EXE = main.out
-
-#
-# tests
-#
-TEST_QUADRATIC_SRCS = \
-	./src/test_circbuf.c
-
-TEST_QUADRATIC_OBJS = $(TEST_QUADRATIC_SRCS:%.c=%.o)
-
-TEST_QUADRATIC_EXE = test-conversion.out
-
-
-#
-# Generic rule to generate objects
-#
-%.o : %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-$(LIB) : $(LIB_OBJS)
-	$(AR) $(ARFLAGS) $@ $^
-
-all : $(LIB) $(EXE)
-
-$(EXE) : $(EXE_OBJS) $(LIB)
-	$(CC) $(CFLAGS) -o $@ $^ -lm
-
-test : $(TEST_QUADRATIC_EXE)
-	./$(TEST_QUADRATIC_EXE)
-
-$(TEST_QUADRATIC_EXE) : $(TEST_QUADRATIC_SRCS) $(LIB)
-	$(CC) $(CFLAGS) -o $@ $^ $(CMOCKA_LIBRARY) -lm
+asm-dump: project1.elf
+	objdump -SD $< > projec1.dump
 
 
-.PHONY : clean
-clean : FORCE
-	-rm -rf *~ *.o $(LIB) $(EXE) $(TEST_QUADRATIC_EXE) *.dSYM/
-
-.PHONY : clobber
-clobber : $(SUBDIRS) clean
-
-
-FORCE :
+compile-all : $(OBJS)
+asm-all     : $(ASMS)
+#asm-dump    : $(ASM_DUMP)
+ppr-all     : $(PPRS)
+dep-all     : $(DEPS)
+build       : $(TARGET)
+unit_tests	: $(TEST)
+clean       :
+	rm -f $(OBJS) $(ASMS) $(PPRS) $(DEPS) $(OUTS) $(TARGET)
