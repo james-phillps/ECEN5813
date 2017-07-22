@@ -9,16 +9,20 @@ LDFLAGS= -O0 -Xlinker -Map=project1.map  #linker generates .map file
 
 ifeq ($(PLATFORM), HOST)
   CC=gcc
+  SRCS+= $(SRCS_PATH)/main.c
+	CFLAGS+= -DVERBOSE
 endif
 
 ifeq ($(PLATFORM),BBB)
      CC=arm-linux-gnueabihf-gcc
+     SRCS+= $(SRCS_PATH)/main.c
 		 CFLAGS= -Wall  \
 		         -Werror \
 						 -g      \
 						 -std=c99 \
 						 -DVERBOSE \
-						 -DPROJECT2
+						 -DPROJECT2 \
+						 -DVERBOSE
 endif
 
 ifeq ($(PLATFORM), KL25Z)
@@ -27,13 +31,13 @@ ifeq ($(PLATFORM), KL25Z)
 		 				 -Werror  \
 						 -g       \
 						 -std=c99 \
-						 -DPROJECT1 \
+						 -DPROJECT2 \
 						 -mcpu=cortex-m0plus -mthumb -mfloat-abi=soft -mfpu=fpv4-sp-d16 \
 						 --specs=nosys.specs
      LDFLAGS= -O0 \
 		          -Xlinker -Map=project1.map  \
 							-T "./platform/MKL25Z128xxx4_flash.ld"
-     SRCS+= $(SRCS_PATH)/sytem_MKL25Z4.c $(SRCS_PATH)/startup_MKL25Z4.S
+     SRCS+= $(SRCS_PATH)/system_MKL25Z4.c $(SRCS_PATH)/startup_MKL25Z4.S
 		 SRCS+= $(SRCS_PATH)/uart.c
 endif
 
@@ -61,7 +65,7 @@ asm-dump: project1.elf
 	objdump -SD $< > projec1.dump
 
 
-compile-all : $(OBJS)
+all : $(OBJS)
 asm-all     : $(ASMS)
 #asm-dump    : $(ASM_DUMP)
 ppr-all     : $(PPRS)

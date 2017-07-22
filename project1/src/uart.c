@@ -13,15 +13,16 @@
  volatile UART0_Type *UARTPC = (UART0_Type *)0x4006A000;
  volatile OSC_Type *myOSC = (OSC_Type *)0x40065000;
 
- extern uint8_t char_rxd;
+ uint8_t char_rxd = 0;
  uint8_t datam = 0;
  extern CB_t *buf_struct;
+ extern uint8_t breakchar; //Declared in project2.c
 
  void UART_configure(){
    //Configure clocks
-   OSC_Type->CR = 0x80; //Flip clock gate for OSCERCLK
+   myOSC->CR = 0x80; //Flip clock gate for OSCERCLK
    SIM_SOPT2 |= 0x04000000; //Selects OSCERCLK for UART0
-   SIM_SCGC5 |= SIM_SCGC5_PORTA_MASK: //Turns on clock for Port A
+   SIM_SCGC5 |= SIM_SCGC5_PORTA_MASK; //Turns on clock for Port A
    SIM_SCGC4 |= 0x00000400; //Enable the UART clock
 
    //Set Baud Rate

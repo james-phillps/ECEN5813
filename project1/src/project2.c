@@ -8,21 +8,24 @@
 
 #include <stdio.h>
 #include "../include/common/circbuf.h"
+#include "../include/common/platform.h"
+#include "../include/common/uart.h"
+#include "../include/common/conversion.h"
 
 CB_t *buf_struct = NULL;
 uint16_t length = 256;
 //Stats variables
-int alpha = 0;
-int numeral = 0;
-int punct = 0;
-int misc = 0;
+uint32_t alpha = 0;
+uint32_t numeral = 0;
+uint32_t punct = 0;
+uint32_t misc = 0;
+uint8_t breakchar = 0x21; //0x21 is exclamtion mark
 
 void project2(void){
   uint8_t data = 0;
   //uint8_t data_out = 0;
   //uint8_t *out_ptr = &data_out;
   uint8_t end = 0;
-  uint8_t breakchar = 0x21;
 
 
 
@@ -65,20 +68,68 @@ void project2(void){
     CB_buffer_add_item(buf_struct, data);
   }
 
-  /*printf("You Entered...\n");
-  while(buf_struct->count != 0){
-    CB_buffer_remove_item(buf_struct, out_ptr);
-    printf("%c", *out_ptr);
-  }
-  printf("\n");*/
-
     return;
 }
 
 void dump_statistics(void){
+  //If platform.h is include, will not run printf because of
+  //compile time switch
   printf("Number of alphabetics characters: %d\n", alpha);
   printf("Number of numerical characters: %d\n", numeral);
   printf("Number of punctuation characters: %d\n", punct);
   printf("Number of miscellaneous characters: %d\n", misc);
+  /////////////////////////////////////////////////////////
+
+#ifndef VERBOSE
+  uint8_t stralpha[13] = "Alphabetic: ";
+  uint8_t strnumeric[12] = "Numerical: ";
+  uint8_t strpunct[14] = "Punctuation: ";
+  uint8_t strmisc[6] = "Misc: ";
+
+  uint8_t stralpha_val[32];
+  uint8_t strnum_val[32];
+  uint8_t strpunct_val[32];
+  uint8_t strmisc_val[32];
+
+  uint8_t alpha_val_len = 0;
+  uint8_t num_val_len = 0;
+  uint8_t punct_val_len = 0;
+  uint8_t misc_val_len = 0;
+
+  uint8_t car_return = 0x0D;
+  uint8_t *CR = &car_return;
+
+  uint8_t linefeed = 0x0A;
+  uint8_t *LF = &linefeed;
+
+
+  alpha_val_len = my_itoa(alpha, stralpha_val, 10);
+  num_val_len = my_itoa(numeral, strnum_val, 10);
+  punct_val_len = my_itoa(punct, strpunct_val, 10);
+  misc_val_len = my_itoa(misc, strmisc_val, 10);
+
+  UART_send_n(stralpha, 13);
+	UART_send_n(stralpha_val, alpha_val_len);
+	UART_send(CR);
+	UART_send(LF);
+
+	UART_send_n(strnumeric, 12);
+	UART_send_n(strnum_val, num_val_len);
+	UART_send(CR);
+	UART_send(LF);
+
+	UART_send_n(strpunct, 14);
+	UART_send_n(strpunct_val, punct_val_len);
+	UART_send(CR);
+	UART_send(LF);
+
+	UART_send_n(strmisc, 6);
+	UART_send_n(strmisc_val, misc_val_len);
+	UART_send(CR);
+	UART_send(LF);
+
+#endif
+
+
   return;
 }

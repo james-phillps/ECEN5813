@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "../include/common/project2.h"
+#include "../include/common/platform.h"
 
 int main(void){
 

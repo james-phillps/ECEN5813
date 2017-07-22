@@ -38,7 +38,7 @@ void UART_send_n(uint8_t * data, uint8_t length);
  * Inputs: Single byte
  * @return
  */
-void UART_receive(uint8_t * data);
+uint8_t * UART_receive(uint8_t * data);
 
 void UART_receive_n(uint8_t * data, uint8_t length);
 
