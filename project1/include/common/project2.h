@@ -23,3 +23,9 @@ void project2(void);
  * @return None
  */
 void dump_statistics(void);
+
+void process_data_kl25z(void);
+
+void process_data(void);
+
+void dump_statistics_kl25z(void);

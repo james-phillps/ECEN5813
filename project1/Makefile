@@ -33,7 +33,8 @@ ifeq ($(PLATFORM), KL25Z)
 						 -std=c99 \
 						 -DPROJECT2 \
 						 -mcpu=cortex-m0plus -mthumb -mfloat-abi=soft -mfpu=fpv4-sp-d16 \
-						 --specs=nosys.specs
+						 --specs=nosys.specs \
+						 -DPROJECT2
      LDFLAGS= -O0 \
 		          -Xlinker -Map=project1.map  \
 							-T "./platform/MKL25Z128xxx4_flash.ld"

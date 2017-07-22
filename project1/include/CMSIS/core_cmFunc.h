@@ -38,7 +38,7 @@
 #ifndef __CORE_CMFUNC_H
 #define __CORE_CMFUNC_H
 
-//#include "../../platform/startup_MKL25Z4.S"
+//#include "../../src/startup_MKL25Z4.S"
 
 
 /* ###########################  Core Function Access  ########################### */

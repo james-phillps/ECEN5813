@@ -5,7 +5,8 @@ $(SRCS_PATH)/main.c \
 $(SRCS_PATH)/conversion.c \
 $(SRCS_PATH)/memory.c \
 $(SRCS_PATH)/project2.c \
-$(SRCS_PATH)/circbuf.c
+$(SRCS_PATH)/circbuf.c \
+$(SRCS_PATH)/LED.c
 
 
 SRCS_INCLUDES = \
