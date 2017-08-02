@@ -5,6 +5,7 @@
 #include "../include/common/LED.h"
 #include "../include/common/uart.h"
 #include "../include/common/timer.h"
+#include "../include/common/memory.h"
 
 //Flags
 uint8_t TPM0_TOF = 0;
@@ -22,9 +23,20 @@ int main(void){
 
   led_config();
   set_off();
-  //set_red();
+  set_red();
   UART_configure();
   timer_blink_red();
+
+  uint8_t data[4] = {0xAA, 0xBB, 0xCC, 0xDD};
+  uint8_t data1[4] = {0x11, 0x22, 0x33, 0x44};
+  uint8_t *src = data;
+  uint8_t *dst = data1;
+  size_t length = 4;
+  uint8_t tran_size = 8;
+
+  memmove_dma(src, dst, length, tran_size);
+
+
 
 #endif
 

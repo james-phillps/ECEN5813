@@ -7,6 +7,7 @@
  */
 
 #include "../include/common/memory.h"
+#include "../include/kl25z/MKL25Z4.h"
 #include <stdlib.h>
 
 uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
@@ -114,6 +115,39 @@ void free_words(uint32_t * src){
 }
 
 uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length, uint8_t tran_size){
+  //Set clocks for DMA
+  SIM_SCGC6 |= SIM_SCGC6_DMAMUX(1);
+  SIM_SCGC7 |= SIM_SCGC7_DMA(1);
+
+  //Set the source address
+  DMA_SAR0 = (uint32_t)src;
+
+  //Set the destination address
+  DMA_DAR0 = (uint32_t)dst;
+
+  //Configure the length
+  DMA_DSR_BCR0 = (0x000FFFFF)&length;
+
+  //Set the DCR
+  if (tran_size == 32){
+    DMA_DCR0 |= DMA_DCR_DSIZE(0) | DMA_DCR_SSIZE(0);
+  }
+  else if (tran_size == 16){
+    DMA_DCR0 |= DMA_DCR_DSIZE(2) | DMA_DCR_SSIZE(2);
+  }
+  else{
+    DMA_DCR0 |= DMA_DCR_DSIZE(1) | DMA_DCR_SSIZE(1);
+  }
+
+  DMA_DCR0 |= DMA_DCR_SINC(1) | DMA_DCR_DINC(1);
+  DMA_DCR0 |= DMA_DCR_D_REQ(1);
+
+  //Start the transfer
+  DMA_DCR0 |= DMA_DCR_START(1);
+
+
+
+
    return dst;
 }
 
