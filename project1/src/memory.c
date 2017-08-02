@@ -112,11 +112,11 @@ void free_words(uint32_t * src){
   free((void *)src);
   return;
 }
-/*
-uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length){
+
+uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length, uint8_t tran_size){
    return dst;
 }
 
-uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value){
+uint8_t * memset_dma(uint8_t * src, size_t length, uint8_t value){
    return src;
-}*/
+}

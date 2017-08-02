@@ -84,7 +84,7 @@ void free_words(uint32_t * src);
   * Inputs: Pointer to memory source, pointer to memory destination, length to move
   * @return: Pointer to destination address
   */
-uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length);
+uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length, uint8_t tran_size);
 
 /**
  *  @brief - Sets all memory locations to a given value
@@ -94,4 +94,4 @@ uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length);
  *  Inputs: Pointer to memory source, length of memory block, and value
  *  @return - pointer to source address
  */
- uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value);
+ uint8_t * memset_dma(uint8_t * src, size_t length, uint8_t value);
