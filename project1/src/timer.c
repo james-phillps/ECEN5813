@@ -7,20 +7,20 @@
  */
 
  #include "../include/common/timer.h"
- extern uint8_t TPM0_TOF;
 
  void timer_init(void){
    //Turns on clock to timer peripheral
-   SIM_SOPT2 = SIM_SOPT2_TPMSRC(2);   //OSCERCLK is TPM CLK source
-   SIM_SCGC6 = SIM_SCGC6_TPM0(1);        //TPM0 clock is enabled
+   SIM_SOPT2 |= SIM_SOPT2_TPMSRC(1);   //MCGPLLCLK is TPM CLK source
+   SIM_SCGC6 |= SIM_SCGC6_TPM2(1);        //TPM0 clock is enabled
 
    //Disable interrupts and counter (TPM0_SC (CMOD))
-   TPM0_SC = 0x00000000;
+   TPM2_SC = 0;
 
    //Sets prescalar to divide clock (TPM0_SC (PS))
-   TPM0_SC |= 0x00000007;
+   TPM2_SC |= TPM_SC_PS(7);
 
-   //Configures for compare mode
+
+   //Cofigures for compare mode
 
    return;
  }
@@ -31,14 +31,14 @@
    //1 ms will require about 164 clk cycles
 
    //Takes time in milliseconds
-   //Writes correct number of cycles to Counter (TPM0_CNT)
-   TPM0_CNT = 0x00000000;
+   //Clear counter
+   TPM2_CNT = TPM_CNT_COUNT(0);
 
    //Resets the modulo register to zero (TPM0_MOD)
-   TPM0_MOD = 0x0000FFFF&((uint32_t)(time*164));
+   TPM2_MOD = TPM_MOD_MOD(0x0000FFFF&((uint32_t)(time*82)));
 
-   //Enable CMOD and Interrupts, clear TOF flag
-   TPM0_SC |= 0x00000080 | 0x00000040 | 0x00000008;
+   //Enable CMOD and Interruptsj/
+   TPM2_SC |= TPM_SC_TOIE(1) | TPM_SC_CMOD(1);
 
    return;
  }
@@ -75,9 +75,9 @@ void timer_blink_red(void){
 }
 
 void TPM2_IRQHandler(void){
-  if ((TPM2_STATUS & 0x00000001) == 0x00000001){
-    TPM0_TOF = 1;
-    TPM2_SC |= 0x00000001; //Clear interrupt flag
+  if ((TPM2_STATUS&TPM_STATUS_TOF_MASK) == TPM_STATUS_TOF_MASK){
+    GPIOB_PTOR |= 0x00040000;
+    TPM2_STATUS |= TPM_STATUS_TOF_MASK; //Clear interrupt flag
   }
 
   return;
