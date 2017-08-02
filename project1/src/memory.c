@@ -152,5 +152,24 @@ uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length, uint8_t tran_
 }
 
 uint8_t * memset_dma(uint8_t * src, size_t length, uint8_t value){
+  //Set clocks for DMA
+  SIM_SCGC6 |= SIM_SCGC6_DMAMUX(1);
+  SIM_SCGC7 |= SIM_SCGC7_DMA(1);
+
+  //Set the source address
+  DMA_SAR1 = (uint32_t)&value;
+
+  //Set the destination address
+  DMA_DAR1 = (uint32_t)src;
+
+  //Configure the length
+  DMA_DSR_BCR1 = (0x000FFFFF)&length;
+
+  DMA_DCR1 |= DMA_DCR_DINC(1) | DMA_DCR_DSIZE(1) | DMA_DCR_SSIZE(1);
+  DMA_DCR1 |= DMA_DCR_D_REQ(1);
+
+  //Start the transfer
+  DMA_DCR1 |= DMA_DCR_START(1);
+
    return src;
 }

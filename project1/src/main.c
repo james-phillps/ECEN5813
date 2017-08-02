@@ -33,8 +33,10 @@ int main(void){
   uint8_t *dst = data1;
   size_t length = 4;
   uint8_t tran_size = 8;
+  uint8_t value = 0xFF;
 
   memmove_dma(src, dst, length, tran_size);
+  memset_dma(src, length, value);
 
 
 
