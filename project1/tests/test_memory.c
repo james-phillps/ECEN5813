@@ -146,6 +146,23 @@ void reverse_char_check(void **state)
 
 }
 
+void dma_memmove_test(void **state)
+{
+  uint8_t data[4] = {0xAA, 0xBB, 0xCC, 0xDD};
+  uint8_t data1[4] = {0x11, 0x22, 0x33, 0x44};
+  uint8_t *src = data;
+  uint8_t *dst = data1;
+  size_t lenght = 4;
+  uint8_t i = 0;
+
+  memmove_dma(src, dst, length);
+
+  for(i = 0; i < length; i++){
+    assert_int_equal(data[i], data1[i]);
+  }
+
+}
+
 int main(int argc, char **argv)
 {
   const struct CMUnitTest tests[] = {
