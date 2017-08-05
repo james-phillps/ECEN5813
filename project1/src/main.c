@@ -25,6 +25,8 @@ int main(void){
   NVIC_EnableIRQ(UART0_IRQn); //Enable UART0 interrupt in NVIC
   NVIC_ClearPendingIRQ(TPM2_IRQn);
   NVIC_EnableIRQ(TPM2_IRQn);
+  NVIC_ClearPendingIRQ(DMA0_IRQn);
+  NVIC_EnableIRQ(DMA0_IRQn);
   uint32_t millsec = 50;
   uint32_t periph_time = 0;
   uint32_t NVIC_time = 0;
@@ -38,7 +40,7 @@ int main(void){
   //timer_set(millsec);
 
 
-  /*uint8_t data[4] = {0xAA, 0xBB, 0xCC, 0xDD};
+  uint8_t data[4] = {0xAA, 0xBB, 0xCC, 0xDD};
   uint8_t data1[4] = {0x11, 0x22, 0x33, 0x44};
   uint8_t *src = data;
   uint8_t *dst = data1;
@@ -47,11 +49,13 @@ int main(void){
   uint8_t value = 0xFF;
 
   memmove_dma(src, dst, length, tran_size);
-  memset_dma(src, length, value);*/
+  memset_dma(src, length, value);
+
+
   //periph_time = TPM_Latency_Periph();
   //NVIC_time = TPM_Latency_NVIC();
 
-  CB_Latency();
+  //CB_Latency();
 
 
 #endif

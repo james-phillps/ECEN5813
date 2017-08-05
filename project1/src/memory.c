@@ -25,10 +25,10 @@ uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
 
   if (abs(diff) < length){     //src and dst overlap
     if (diff < 0){        //end of dst writes on beginning of src
-      dst = dst - (length - diff);
+      dst = dst - (length - abs(diff));
     }
     else if (diff > 0){   //beginning of dst writes on end of src
-      dst = dst + (length - diff);
+      dst = dst + (length - abs(diff));
     }
   }
 
@@ -115,9 +115,25 @@ void free_words(uint32_t * src){
 }
 
 uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length, uint8_t tran_size){
+  //Check for null pointers
+  if(src == NULL || dst == NULL){
+    return NULL;
+  }
+
   //Set clocks for DMA
   SIM_SCGC6 |= SIM_SCGC6_DMAMUX(1);
   SIM_SCGC7 |= SIM_SCGC7_DMA(1);
+
+  ptrdiff_t diff = dst - src;
+
+  if (abs(diff) < length){     //src and dst overlap
+    if (diff < 0){        //end of dst writes on beginning of src
+      dst = dst - (length - abs(diff));
+    }
+    else if (diff > 0){   //beginning of dst writes on end of src
+      dst = dst + (length - abs(diff));
+    }
+  }
 
   //Set the source address
   DMA_SAR0 = (uint32_t)src;
@@ -126,7 +142,7 @@ uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length, uint8_t tran_
   DMA_DAR0 = (uint32_t)dst;
 
   //Configure the length
-  DMA_DSR_BCR0 = (0x000FFFFF)&length;
+  DMA_DSR_BCR0 = (0x00FFFFFF)&length;
 
   //Set the DCR
   if (tran_size == 32){
@@ -140,36 +156,44 @@ uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length, uint8_t tran_
   }
 
   DMA_DCR0 |= DMA_DCR_SINC(1) | DMA_DCR_DINC(1);
-  DMA_DCR0 |= DMA_DCR_D_REQ(1);
+  DMA_DCR0 |= DMA_DCR_D_REQ(1) | DMA_DCR_EINT(1);
 
   //Start the transfer
   DMA_DCR0 |= DMA_DCR_START(1);
 
-
-
-
-   return dst;
+  return dst;
 }
 
 uint8_t * memset_dma(uint8_t * src, size_t length, uint8_t value){
+  if(src == NULL){
+    return NULL;
+  }
+
   //Set clocks for DMA
   SIM_SCGC6 |= SIM_SCGC6_DMAMUX(1);
   SIM_SCGC7 |= SIM_SCGC7_DMA(1);
 
   //Set the source address
-  DMA_SAR1 = (uint32_t)&value;
+  DMA_SAR0 = (uint32_t)&value;
 
   //Set the destination address
-  DMA_DAR1 = (uint32_t)src;
+  DMA_DAR0 = (uint32_t)src;
 
   //Configure the length
-  DMA_DSR_BCR1 = (0x000FFFFF)&length;
-
-  DMA_DCR1 |= DMA_DCR_DINC(1) | DMA_DCR_DSIZE(1) | DMA_DCR_SSIZE(1);
-  DMA_DCR1 |= DMA_DCR_D_REQ(1);
+  DMA_DSR_BCR0 = (0x00FFFFFF)&length;
+  DMA_DCR0 |= DMA_DCR_DINC(1) | DMA_DCR_DSIZE(1) | DMA_DCR_SSIZE(1);
+  DMA_DCR0 |= DMA_DCR_D_REQ(1) | DMA_DCR_EINT(1);
 
   //Start the transfer
-  DMA_DCR1 |= DMA_DCR_START(1);
+  DMA_DCR0 |= DMA_DCR_START(1);
 
    return src;
+}
+
+void DMA0_IRQHandler(void){
+  if((DMA_DSR_BCR0 & DMA_DSR_BCR_DONE_MASK) == DMA_DSR_BCR_DONE_MASK){
+    DMA_DSR_BCR0 |= DMA_DSR_BCR_DONE_MASK; //Clear DONE bit
+  }
+
+  return;
 }

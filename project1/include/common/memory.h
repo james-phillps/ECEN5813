@@ -95,3 +95,5 @@ uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length, uint8_t tran_
  *  @return - pointer to source address
  */
  uint8_t * memset_dma(uint8_t * src, size_t length, uint8_t value);
+
+ void DMA0_IRQHandler(void);
