@@ -6,6 +6,11 @@
  * @date 6/28/2017
  */
 #include <stdint.h>
+#include "../kl25z/MKL25Z4.h"
+#include "../CMSIS/core_cm0plus.h"
+
+extern volatile SysTick_Type *mySysTick;
+extern uint32_t latency[4];
 
  typedef struct{
      uint8_t *buff;
@@ -84,3 +89,14 @@ CB_status_e CB_init(CB_t **buf_struct, uint16_t length);
  * @return - Status of circular buffer or error codes
  */
 CB_status_e CB_destroy(CB_t *buf_struct);
+
+/**@brief Measure latency of circular buffer functions
+ * Uses systick to measure the latency of CB_int, CB_buffer_add_item
+ * CB_buffer_remove_item, and CB_is_full. Writes latency in bus clock
+ * cycles to latency array defined in main.c. Use debug mode to view array
+ * values or add functionality to print over UART.
+ * @param
+ * Inputs: Buffer to be destroyed
+ * @return - Status of circular buffer or error codes
+ */
+void CB_Latency(void);

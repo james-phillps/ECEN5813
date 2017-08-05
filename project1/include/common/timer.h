@@ -8,6 +8,10 @@
 
  #include <stdint.h>
  #include "../kl25z/MKL25Z4.h"
+ #include "../CMSIS/core_cm0plus.h"
+
+ extern volatile SysTick_Type *mySysTick;
+
 
  /**@brief Initializes timer,
   * Initializes timer for compare
@@ -64,3 +68,21 @@ void timer_disable(void);
  * @return Non
  */
 void TPM2_IRQHandler();
+
+/**@brief Measures latency in TPM2 ISR
+ * Manually triggers in interupt in TPM2 and uses Systick to
+ * measure the latency
+ * @param
+ * Inputs: None
+ * @return Non
+ */
+uint32_t TPM_Latency_Periph(void);
+
+/**@brief Measures latency in TPM2 ISR
+ * Triggers TPM2 interrupt in NVIC and uses Systick to measure
+ * the latency of the TPM2 ISR
+ * @param
+ * Inputs: None
+ * @return Non
+ */
+uint32_t TPM_Latency_NVIC(void);

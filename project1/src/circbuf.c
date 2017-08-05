@@ -129,3 +129,62 @@
 
    return status;
  }
+
+ void CB_Latency(void){
+   uint32_t time = 0;
+   CB_t *test_buf = NULL;
+   uint16_t length = 0x00FF;
+   uint8_t test_dat = 0;
+   uint8_t *ptr = &test_dat;
+
+
+   //Configure SysTick
+   //Set the counter to maximum value
+   mySysTick->LOAD = SysTick_LOAD_RELOAD_Msk;
+   //Reset the counter by writing any value
+   mySysTick->VAL = 0;
+   //Configure the SysTick
+   mySysTick->CTRL |= 0x00000004;
+   //Enable SysTick
+   mySysTick->CTRL |= 0x00000001;
+
+   //Call CB_Init()
+   CB_init(&test_buf, length);
+   latency[0] = 0x00FFFFFF - (mySysTick->VAL) & (0x00FFFFFF);
+
+   //Disable SysTick
+   mySysTick->CTRL &= ~0x00000001;
+   //Reset SysTick
+   mySysTick->VAL = 0;
+   //Enable SysTick
+   mySysTick->CTRL |= 0x00000001;
+   CB_buffer_add_item(test_buf, 0xFF);
+   latency[1] = 0x00FFFFFF - (mySysTick->VAL) & (0x00FFFFFF);
+
+   //Disable SysTick
+   mySysTick->CTRL &= ~0x00000001;
+   //Reset
+   mySysTick->VAL = 0;
+   //Enable SysTick
+   mySysTick->CTRL |= 0x00000001;
+   CB_buffer_remove_item(test_buf, ptr);
+   latency[2] = 0x00FFFFFF - (mySysTick->VAL) & (0x00FFFFFF);
+
+   //Disable SysTick
+   mySysTick->CTRL &= ~0x00000001;
+   //Reset
+   mySysTick->VAL = 0;
+   //Enable SysTick
+   mySysTick->CTRL |= 0x00000001;
+   CB_is_full(test_buf);
+   latency[3] = 0x00FFFFFF - (mySysTick->VAL) & (0x00FFFFFF);
+
+   //Disable SysTick
+   mySysTick->CTRL &= ~0x00000001;
+
+
+
+
+   CB_destroy(test_buf);
+   return;
+ }

@@ -75,10 +75,64 @@ void timer_blink_red(void){
 }
 
 void TPM2_IRQHandler(void){
-  if ((TPM2_STATUS&TPM_STATUS_TOF_MASK) == TPM_STATUS_TOF_MASK){
-    GPIOB_PTOR |= 0x00040000;
-    TPM2_STATUS |= TPM_STATUS_TOF_MASK; //Clear interrupt flag
-  }
+
+  /*if ((TPM2_STATUS&TPM_STATUS_TOF_MASK) == TPM_STATUS_TOF_MASK){
+    //GPIOB_PTOR |= 0x00040000;
+    //TPM2_STATUS |= TPM_STATUS_TOF_MASK; //Clear interrupt flag
+  }*/
 
   return;
+}
+
+uint32_t TPM_Latency_Periph(void){
+  uint32_t time = 0;
+
+  //Manually trigger interrupt
+  TPM2_CNT = TPM_CNT_COUNT(0);
+  TPM2_MOD = TPM2_MOD = TPM_MOD_MOD(0x0000FFFF&((uint32_t)(50)));
+  TPM2_CNT = TPM_CNT_COUNT(50);
+
+  //Configure SysTick
+  mySysTick->LOAD = SysTick_LOAD_RELOAD_Msk;
+  //Reset the counter by writing any value
+  mySysTick->VAL = 0;
+  //Configure the SysTick
+  mySysTick->CTRL |= 0x00000004;
+
+  //Enable SysTick
+  mySysTick->CTRL |= 0x00000001;
+  //Enable CMOD and Interrupts/
+  TPM2_SC |= TPM_SC_TOIE(1) | TPM_SC_CMOD(1);
+
+  time = 0x00FFFFFF - (mySysTick->VAL) & (0x00FFFFFF);
+  //Disable SysTick
+  mySysTick->CTRL &= ~0x00000001;
+  return time;
+
+
+}
+
+uint32_t TPM_Latency_NVIC(void){
+  uint32_t time = 0;
+
+  //Configure SysTick
+  //Set the counter to maximum value
+  mySysTick->LOAD = SysTick_LOAD_RELOAD_Msk;
+  //Reset the counter by writing any value
+  mySysTick->VAL = 0;
+  //Configure the SysTick
+  mySysTick->CTRL |= 0x00000004;
+  //Enable SysTick
+  mySysTick->CTRL |= 0x00000001;
+
+
+
+  //Trigger interrupt
+  NVIC_SetPendingIRQ(TPM2_IRQn);
+  time = 0x00FFFFFF - (mySysTick->VAL) & (0x00FFFFFF);
+
+  //Disable SysTick
+  mySysTick->CTRL &= ~0x00000001;
+  return time;
+
 }

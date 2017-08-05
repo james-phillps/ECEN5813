@@ -6,9 +6,15 @@
 #include "../include/common/uart.h"
 #include "../include/common/timer.h"
 #include "../include/common/memory.h"
+#include "../include/common/circbuf.h"
 
 //Flags
 uint8_t TPM0_TOF = 0;
+volatile SysTick_Type *mySysTick = (SysTick_Type *)0xE000E010;
+uint32_t latency[4] = {0, 0, 0, 0};
+
+extern uint32_t __BUFFER_START;
+uint8_t *ptr = (uint8_t *)&__BUFFER_START;
 
 
 int main(void){
@@ -20,13 +26,17 @@ int main(void){
   NVIC_ClearPendingIRQ(TPM2_IRQn);
   NVIC_EnableIRQ(TPM2_IRQn);
   uint32_t millsec = 50;
+  uint32_t periph_time = 0;
+  uint32_t NVIC_time = 0;
 
   led_config();
   set_off();
   set_red();
   UART_configure();
   timer_init();
-  timer_set(millsec);
+
+  //timer_set(millsec);
+
 
   /*uint8_t data[4] = {0xAA, 0xBB, 0xCC, 0xDD};
   uint8_t data1[4] = {0x11, 0x22, 0x33, 0x44};
@@ -38,16 +48,17 @@ int main(void){
 
   memmove_dma(src, dst, length, tran_size);
   memset_dma(src, length, value);*/
+  //periph_time = TPM_Latency_Periph();
+  //NVIC_time = TPM_Latency_NVIC();
 
+  CB_Latency();
 
 
 #endif
 
 while(1){
-  if (TPM0_TOF == 1){
-    GPIOB_PTOR |= 0x00040000;
-    TPM0_TOF = 0;
-  }
+
+
 }
 
 
