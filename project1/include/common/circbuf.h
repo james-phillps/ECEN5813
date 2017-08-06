@@ -6,10 +6,11 @@
  * @date 6/28/2017
  */
 #include <stdint.h>
+#ifdef KL25Z
 #include "../kl25z/MKL25Z4.h"
 #include "../CMSIS/core_cm0plus.h"
-
 extern volatile SysTick_Type *mySysTick;
+#endif
 extern uint32_t latency[4];
 
  typedef struct{

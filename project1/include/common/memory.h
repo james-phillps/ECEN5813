@@ -8,6 +8,12 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <stdlib.h>
+
+#ifdef KL25Z
+#include "../include/kl25z/MKL25Z4.h"
+#endif
+
 
 /**@brief source to a destination location
  *Copies values beginning at a source location and ending after a given length

@@ -4,7 +4,7 @@ include sources.mk
 CC = gcc
 CFLAGS= -Wall -Werror -g -std=c99 -DPROJECT3  #Compile time switch for project
 
-LDFLAGS= -O0 -Xlinker -Map=project3.map  #linker generates .map file
+LDFLAGS= -O3 -Xlinker -Map=project3.map  #linker generates .map file
 
 
 ifeq ($(PLATFORM), HOST)
@@ -22,7 +22,7 @@ ifeq ($(PLATFORM),BBB)
 						 -std=c99 \
 						 -DVERBOSE \
 						 -DPROJECT3 \
-						 -DVERBOSE
+						 -DBBB
 endif
 
 ifeq ($(PLATFORM), KL25Z)

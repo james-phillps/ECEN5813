@@ -131,6 +131,7 @@
  }
 
  void CB_Latency(void){
+   #ifdef KL25Z
    uint32_t time = 0;
    CB_t *test_buf = NULL;
    uint16_t length = 0x00FF;
@@ -186,5 +187,6 @@
 
 
    CB_destroy(test_buf);
+   #endif
    return;
  }

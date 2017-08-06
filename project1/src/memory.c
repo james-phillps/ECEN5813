@@ -7,8 +7,6 @@
  */
 
 #include "../include/common/memory.h"
-#include "../include/kl25z/MKL25Z4.h"
-#include <stdlib.h>
 
 uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
   //Check for null pointers
@@ -115,6 +113,7 @@ void free_words(uint32_t * src){
 }
 
 uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length, uint8_t tran_size){
+  #ifdef KL25Z
   //Check for null pointers
   if(src == NULL || dst == NULL){
     return NULL;
@@ -163,11 +162,12 @@ uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length, uint8_t tran_
 
   //Start the transfer
   DMA_DCR0 |= DMA_DCR_START(1);
-
+  #endif
   return dst;
 }
 
 uint8_t * memset_dma(uint8_t * src, size_t length, uint8_t value, uint8_t tran_size){
+  #ifdef KL25Z
   if(src == NULL){
     return NULL;
   }
@@ -203,14 +203,15 @@ uint8_t * memset_dma(uint8_t * src, size_t length, uint8_t value, uint8_t tran_s
 
   //Start the transfer
   DMA_DCR0 |= DMA_DCR_START(1);
-
+  #endif
    return src;
 }
 
 void DMA0_IRQHandler(void){
+  #ifdef KL25Z
   if((DMA_DSR_BCR0 & DMA_DSR_BCR_DONE_MASK) == DMA_DSR_BCR_DONE_MASK){
     DMA_DSR_BCR0 |= DMA_DSR_BCR_DONE_MASK; //Clear DONE bit
   }
-
+  #endif
   return;
 }

@@ -6,7 +6,6 @@ $(SRCS_PATH)/conversion.c \
 $(SRCS_PATH)/memory.c \
 $(SRCS_PATH)/project3.c \
 $(SRCS_PATH)/circbuf.c \
-$(SRCS_PATH)/LED.c \
 
 
 SRCS_INCLUDES = \
@@ -23,4 +22,4 @@ DEPS=$(SRCS:.c=.d)
 OUTS=$(SRCS:.c=.out)
 
 
-TARGET=project2.elf
+TARGET=project3.elf

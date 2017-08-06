@@ -10,7 +10,8 @@
  #include "../kl25z/MKL25Z4.h"
  #include "../CMSIS/core_cm0plus.h"
 
- extern volatile SysTick_Type *mySysTick;
+volatile SysTick_Type *mySysTick = (SysTick_Type *)0xE000E010;
+
 
 
  /**@brief Initializes timer,
@@ -103,4 +104,4 @@ uint32_t TPM_Latency_NVIC(void);
   * Inputs: None
   * @return Non
   */
-uint32_t systick_read(void);  
+uint32_t systick_read(void);
