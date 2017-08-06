@@ -1,4 +1,4 @@
-#include "../include/common/project2.h"
+#include "../include/common/project3.h"
 #include "../include/CMSIS/core_cm0plus.h"
 #include "../include/kl25z/MKL25Z4.h"
 #include "../include/CMSIS/core_cmFunc.h"
@@ -40,7 +40,7 @@ int main(void){
   //timer_set(millsec);
 
 
-  uint8_t data[4] = {0xAA, 0xBB, 0xCC, 0xDD};
+  /*uint8_t data[4] = {0xAA, 0xBB, 0xCC, 0xDD};
   uint8_t data1[4] = {0x11, 0x22, 0x33, 0x44};
   uint8_t *src = data;
   uint8_t *dst = data1;
@@ -49,7 +49,7 @@ int main(void){
   uint8_t value = 0xFF;
 
   memmove_dma(src, dst, length, tran_size);
-  memset_dma(src, length, value);
+  memset_dma(src, length, value);*/
 
 
   //periph_time = TPM_Latency_Periph();
@@ -60,15 +60,9 @@ int main(void){
 
 #endif
 
-while(1){
-
-
-}
-
-
-
-
 #ifdef PROJECT3
-  project2();
+  project3();
 #endif
+
+
 }

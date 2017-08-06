@@ -136,3 +136,26 @@ uint32_t TPM_Latency_NVIC(void){
   return time;
 
 }
+
+void systick_set(void){
+  //Configure SysTick
+  //Set the counter to maximum value
+  mySysTick->LOAD = SysTick_LOAD_RELOAD_Msk;
+  //Reset the counter by writing any value
+  mySysTick->VAL = 0;
+  //Configure the SysTick
+  mySysTick->CTRL |= 0x00000004;
+  //Enable SysTick
+  mySysTick->CTRL |= 0x00000001;
+
+  return;
+}
+
+uint32_t systick_read(void){
+  uint32_t time  = 0;
+  time = 0x00FFFFFF - (mySysTick->VAL) & (0x00FFFFFF);
+
+  //Disable SysTick
+  mySysTick->CTRL &= ~0x00000001;
+  return time;
+}

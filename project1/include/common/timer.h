@@ -86,3 +86,21 @@ uint32_t TPM_Latency_Periph(void);
  * @return Non
  */
 uint32_t TPM_Latency_NVIC(void);
+
+/**@brief Measures latency in TPM2 ISR
+ * Triggers TPM2 interrupt in NVIC and uses Systick to measure
+ * the latency of the TPM2 ISR
+ * @param
+ * Inputs: None
+ * @return Non
+ */
+ void systick_set(void);
+
+ /**@brief Measures latency in TPM2 ISR
+  * Triggers TPM2 interrupt in NVIC and uses Systick to measure
+  * the latency of the TPM2 ISR
+  * @param
+  * Inputs: None
+  * @return Non
+  */
+uint32_t systick_read(void);  

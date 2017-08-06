@@ -2,9 +2,9 @@ include sources.mk
 
 #Defaults
 CC = gcc
-CFLAGS= -Wall -Werror -g -std=c99 -DPROJECT2  #Compile time switch for project
+CFLAGS= -Wall -Werror -g -std=c99 -DPROJECT3  #Compile time switch for project
 
-LDFLAGS= -O0 -Xlinker -Map=project1.map  #linker generates .map file
+LDFLAGS= -O0 -Xlinker -Map=project3.map  #linker generates .map file
 
 
 ifeq ($(PLATFORM), HOST)
@@ -21,7 +21,7 @@ ifeq ($(PLATFORM),BBB)
 						 -g      \
 						 -std=c99 \
 						 -DVERBOSE \
-						 -DPROJECT2 \
+						 -DPROJECT3 \
 						 -DVERBOSE
 endif
 
@@ -31,7 +31,6 @@ ifeq ($(PLATFORM), KL25Z)
 		 				 -Werror  \
 						 -g       \
 						 -std=c99 \
-						 -DPROJECT2 \
 						 -mcpu=cortex-m0plus -mthumb -mfloat-abi=soft -mfpu=fpv4-sp-d16 \
 						 --specs=nosys.specs \
 						 -DPROJECT2

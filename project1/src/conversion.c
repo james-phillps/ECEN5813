@@ -28,6 +28,11 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base) {
 	int32_t test = 0;
 	int32_t mod = 0;
 
+	//Check for null pointer
+	if (ptr == NULL){
+		return 0;
+	}
+
 
 	if (data < 0)
 	{

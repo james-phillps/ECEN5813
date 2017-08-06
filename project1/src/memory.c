@@ -20,7 +20,7 @@ uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
     return dst;
   }
 
-  uint8_t i = 0;
+  uint16_t i = 0;
   ptrdiff_t diff = dst - src;
 
   if (abs(diff) < length){     //src and dst overlap
@@ -60,7 +60,7 @@ uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value){
     return src;
   }
 
-  int8_t i = 0;
+  int16_t i = 0;
 
   for (i = 0; i < length; i++)
   {
@@ -146,10 +146,13 @@ uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length, uint8_t tran_
 
   //Set the DCR
   if (tran_size == 32){
-    DMA_DCR0 |= DMA_DCR_DSIZE(0) | DMA_DCR_SSIZE(0);
+    //DMA_DCR0 |= DMA_DCR_DSIZE(0) | DMA_DCR_SSIZE(0);
+    DMA_DCR0 &= ~0x00360000;
   }
   else if (tran_size == 16){
-    DMA_DCR0 |= DMA_DCR_DSIZE(2) | DMA_DCR_SSIZE(2);
+    //DMA_DCR0 |= DMA_DCR_DSIZE(2) | DMA_DCR_SSIZE(2);
+    DMA_DCR0 &= ~0x00360000;
+    DMA_DCR0 |= 0x00240000;
   }
   else{
     DMA_DCR0 |= DMA_DCR_DSIZE(1) | DMA_DCR_SSIZE(1);
@@ -164,7 +167,7 @@ uint8_t * memmove_dma(uint8_t * src, uint8_t * dst, size_t length, uint8_t tran_
   return dst;
 }
 
-uint8_t * memset_dma(uint8_t * src, size_t length, uint8_t value){
+uint8_t * memset_dma(uint8_t * src, size_t length, uint8_t value, uint8_t tran_size){
   if(src == NULL){
     return NULL;
   }
@@ -181,7 +184,21 @@ uint8_t * memset_dma(uint8_t * src, size_t length, uint8_t value){
 
   //Configure the length
   DMA_DSR_BCR0 = (0x00FFFFFF)&length;
-  DMA_DCR0 |= DMA_DCR_DINC(1) | DMA_DCR_DSIZE(1) | DMA_DCR_SSIZE(1);
+  DMA_DCR0 &= ~0x00360000; //Clear SSIZE and DSIZE
+
+  if (tran_size == 32){
+    //DMA_DCR0 |= DMA_DCR_SSIZE(0) | DMA_DCR_DSIZE(0);
+    DMA_DCR0 &= ~0x00360000;
+  }
+  else if(tran_size == 16){
+    //DMA_DCR0 |= DMA_DCR_SSIZE(2) | DMA_DCR_DSIZE(2);
+    DMA_DCR0 &= ~0x00360000;
+    DMA_DCR0 |= 0x00240000;
+  }
+  else{
+    DMA_DCR0 |= DMA_DCR_SSIZE(1) | DMA_DCR_DSIZE(1);
+  }
+  DMA_DCR0 |= DMA_DCR_DINC(1);
   DMA_DCR0 |= DMA_DCR_D_REQ(1) | DMA_DCR_EINT(1);
 
   //Start the transfer

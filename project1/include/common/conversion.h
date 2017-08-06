@@ -2,7 +2,7 @@
  * @file conversion.h
  * @brief Function prototypes for conversion.c
  * Contains function prototypes for data conversion routines
- * @author Jordan Wachs
+ * @author James Phillips
  * @date 6/21/2017
  */
 #include <stdint.h>

@@ -21,11 +21,11 @@
  void UART_configure(){
    //Configure clocks
    myOSC->CR = 0x80; //Flip clock gate for OSCERCLK
-   SIM_SOPT2 |= SIM_SOPT2_UART0SRC(2);
-   //SIM_SOPT2 |= 0x04000000; //Selects OSCERCLK for UART0
+   //SIM_SOPT2 |= SIM_SOPT2_UART0SRC(2);
+   SIM_SOPT2 |= 0x04000000; //Selects OSCERCLK for UART0
    SIM_SCGC5 |= SIM_SCGC5_PORTA_MASK; //Turns on clock for Port A
-   SIM_SCGC4 |= SIM_SCGC4_UART0(1);
-   //SIM_SCGC4 |= 0x00000400; //Enable the UART clock
+   //SIM_SCGC4 |= SIM_SCGC4_UART0(1);
+   SIM_SCGC4 |= 0x00000400; //Enable the UART clock
 
    //Set Baud Rate
    uint32_t BaudRate = 115200;
