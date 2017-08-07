@@ -10,7 +10,7 @@
  #include "../kl25z/MKL25Z4.h"
  #include "../CMSIS/core_cm0plus.h"
 
-volatile SysTick_Type *mySysTick = (SysTick_Type *)0xE000E010;
+extern volatile SysTick_Type *mySysTick;
 
 
 

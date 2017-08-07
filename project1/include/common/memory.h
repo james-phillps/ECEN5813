@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 #ifdef KL25Z
-#include "../include/kl25z/MKL25Z4.h"
+#include "../kl25z/MKL25Z4.h"
 #endif
 
 

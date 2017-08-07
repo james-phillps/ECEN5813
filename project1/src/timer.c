@@ -76,10 +76,10 @@ void timer_blink_red(void){
 
 void TPM2_IRQHandler(void){
 
-  /*if ((TPM2_STATUS&TPM_STATUS_TOF_MASK) == TPM_STATUS_TOF_MASK){
-    //GPIOB_PTOR |= 0x00040000;
-    //TPM2_STATUS |= TPM_STATUS_TOF_MASK; //Clear interrupt flag
-  }*/
+  if ((TPM2_STATUS&TPM_STATUS_TOF_MASK) == TPM_STATUS_TOF_MASK){
+    GPIOD_PSOR |= 0x00000001;
+    TPM2_STATUS |= TPM_STATUS_TOF_MASK; //Clear interrupt flag
+  }
 
   return;
 }

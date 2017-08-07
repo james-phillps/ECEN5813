@@ -16,8 +16,7 @@ integer outputs.  String ends with a null terminate.
 */
 
 #include "../include/common/conversion.h"
-#include "../include/common/memory.h"
-#include <stdlib.h>
+
 
 uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base) {
 	int32_t j = 0;
