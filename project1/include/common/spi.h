@@ -13,7 +13,7 @@
 
 void SPI_init(void);
 
-uint8_t SPI_read_byte(void);
+void SPI_read_byte(uint8_t byte);
 
 void SPI_write_byte(uint8_t byte);
 

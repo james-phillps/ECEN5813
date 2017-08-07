@@ -10,6 +10,7 @@
 #include "../include/common/uart.h"
 #include "../include/common/timer.h"
 #include "../include/common/spi.h"
+#include "../include/common/nordic.h"
 volatile SysTick_Type *mySysTick = (SysTick_Type *)0xE000E010;
 #endif
 
@@ -25,7 +26,7 @@ int main(void){
   NVIC_ClearPendingIRQ(DMA0_IRQn);
   NVIC_EnableIRQ(DMA0_IRQn);
 
-  uint8_t testbyte[8] = {0xAA, 0x55, 0xAA, 0x22, 0x22, 0x99, 0x33, 0xBB};
+  uint8_t status = 0xFF;
   led_config();
   set_off();
   set_red();
@@ -33,8 +34,7 @@ int main(void){
   timer_init();
   SPI_init();
   set_yel();
-  SPI_write_byte(testbyte[3]);
-  SPI_send_packet(testbyte, 8);
+  status = nrf_read_status();
   set_grn();
 #endif
 

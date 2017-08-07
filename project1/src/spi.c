@@ -50,17 +50,16 @@
    return;
  }
 
- uint8_t SPI_read_byte(void){
+ void SPI_read_byte(uint8_t byte){
    uint8_t data = 0;
    SS_LO
    SPI_flush();
-   SPI0_D = 0xFF;
+   SPI0_D = byte;
    SPI_flush();
    for(int i = 0; i < 250; i++){}
    SS_HI
-   data = SPI0_D;
 
-   return data;
+   return;
  }
 
 void SPI_write_byte(uint8_t byte){
