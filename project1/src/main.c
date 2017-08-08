@@ -11,6 +11,7 @@
 #include "../include/common/timer.h"
 #include "../include/common/spi.h"
 #include "../include/common/nordic.h"
+#include "../include/common/logger_queue.h"
 volatile SysTick_Type *mySysTick = (SysTick_Type *)0xE000E010;
 #endif
 
@@ -29,8 +30,11 @@ int main(void){
   NVIC_EnableIRQ(TPM2_IRQn);
   NVIC_ClearPendingIRQ(DMA0_IRQn);
   NVIC_EnableIRQ(DMA0_IRQn);
+  NVIC_ClearPendingIRQ(RTC_Seconds_IRQn);
+  NVIC_EnableIRQ(RTC_Seconds_IRQn);
 
   uint8_t status = 0xFF;
+  RTC_Init();
   led_config();
   set_off();
   set_red();
@@ -38,7 +42,7 @@ int main(void){
   timer_init();
   SPI_init();
   set_yel();
-  //status = nrf_read_status();
+  status = nrf_read_status();
   set_grn();
 #endif
 //Initialize logger buffer
