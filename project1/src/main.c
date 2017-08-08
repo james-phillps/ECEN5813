@@ -1,6 +1,6 @@
 #include "../include/common/project3.h"
 #include "../include/common/memory.h"
-#include "../include/common/circbuf.h"
+//#include "../include/common/circbuf.h"
 
 #ifdef KL25Z
 #include "../include/CMSIS/core_cm0plus.h"
@@ -13,6 +13,10 @@
 #include "../include/common/nordic.h"
 volatile SysTick_Type *mySysTick = (SysTick_Type *)0xE000E010;
 #endif
+
+CB_t *log_buf = NULL;
+uint16_t buf_length = 256;
+
 
 
 int main(void){
@@ -34,15 +38,17 @@ int main(void){
   timer_init();
   SPI_init();
   set_yel();
-  status = nrf_read_status();
+  //status = nrf_read_status();
   set_grn();
 #endif
+//Initialize logger buffer
+CB_init(&log_buf, buf_length);
 
 
 
-/*#ifdef PROJECT3
+#ifdef PROJECT3
   project3();
-#endif*/
+#endif
 
 return 0;
 }

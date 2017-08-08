@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "./memory.h"
+//#include "./circbuf.h"
+#include "./logger.h"
 
 #ifdef KL25Z
 #include "./timer.h"

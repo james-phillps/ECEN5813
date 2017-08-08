@@ -2,8 +2,20 @@
 
 
 void project3(void){
+
   #ifdef KL25Z
-    profile_kl25z();
+  uint8_t data[6] = {0xAA, 0xBB, 0xCC, 0xDD, 0xFF, 0x55};
+  uint8_t histr[7] = "Hello!";
+  int32_t integer = 10000;
+  //log_data(data, 6);
+  //LOG_RAW_FLUSH();
+
+  //LOG_RAW_STRING(histr);
+  //LOG_RAW_FLUSH();
+
+  LOG_RAW_INTEGER(integer);
+  LOG_RAW_FLUSH();
+    //profile_kl25z();
   #endif
 
   #ifdef BBB
