@@ -2,13 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "./memory.h"
-//#include "./circbuf.h"
+#include "./circbuf.h"
 #include "./logger.h"
 
 #ifdef KL25Z
 #include "./timer.h"
 #include "./uart.h"
 #include "./conversion.h"
+#include "./nordic.h"
 #endif
 
 #ifdef BBB

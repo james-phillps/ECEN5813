@@ -1,20 +1,31 @@
 #include "../include/common/project3.h"
 
 
+
+
+
 void project3(void){
 
   #ifdef KL25Z
   uint8_t data[6] = {0xAA, 0xBB, 0xCC, 0xDD, 0xFF, 0x55};
   uint8_t histr[7] = "Hello!";
   int32_t integer = 10000;
+
+  //SPI_write_byte(0xAA);
+  uint8_t addr_init[5];
+  uint8_t addr_set[5] = {0xFF, 0xEE, 0xDD, 0xCC, 0xBB};
+  uint8_t addr_post[5];
+  nrf_read_TX_ADDR(addr_init);
+  nrf_write_TX_ADDR(addr_set);
+  nrf_read_TX_ADDR(addr_post);
   //log_data(data, 6);
   //LOG_RAW_FLUSH();
 
   //LOG_RAW_STRING(histr);
   //LOG_RAW_FLUSH();
 
-  LOG_RAW_INTEGER(integer);
-  LOG_RAW_FLUSH();
+  //LOG_RAW_INTEGER(integer);
+  //LOG_RAW_FLUSH();
     //profile_kl25z();
   #endif
 

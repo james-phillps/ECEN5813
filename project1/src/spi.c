@@ -53,9 +53,9 @@
  void SPI_read_byte(uint8_t byte){
    uint8_t data = 0;
    SS_LO
-   SPI_flush();
+   while((SPI0_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK);
    SPI0_D = byte;
-   SPI_flush();
+   while((SPI0_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK);
    for(int i = 0; i < 250; i++){}
    SS_HI
 
@@ -64,9 +64,9 @@
 
 void SPI_write_byte(uint8_t byte){
   SS_LO
-  SPI_flush(); //Wait until TX buffer is empty
+  while((SPI0_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK); //Wait until TX buffer is empty
   SPI0_D = byte;
-  SPI_flush();
+  while((SPI0_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK);
   for(int i = 0; i < 250; i++){}
   SS_HI
 
@@ -78,10 +78,10 @@ void SPI_send_packet(uint8_t *p, size_t length){
 
   SS_LO
   for(i = 0; i < length; i++){
-    SPI_flush();
+    while((SPI0_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK);
     SPI0_D = *(p + i);
   }
-  SPI_flush();
+  while((SPI0_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK);
 
   for(i = 0; i < 300; i++){}
   SS_HI
@@ -90,7 +90,10 @@ void SPI_send_packet(uint8_t *p, size_t length){
 }
 
 void SPI_flush(void){
-  while((SPI0_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK);
-
+  uint8_t data = 0;
+  while(CB_is_empty(spi_buf_tx) != BuffEmpty){
+    CB_buffer_remove_item(spi_buf_tx, &data);
+    SPI_write_byte(data);
+  }
   return;
 }

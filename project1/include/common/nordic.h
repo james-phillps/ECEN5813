@@ -36,6 +36,8 @@
 #define DYNPD_ADDR  0x1C
 #define FEATURE_ADDR 0x1D
 
+#define FLUSH_TX 0xE1
+#define FLUSH_RX 0xE2
 
 
 uint8_t nrf_read_register(uint8_t reg);

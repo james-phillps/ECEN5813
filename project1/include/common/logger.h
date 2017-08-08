@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include "./circbuf.h"
 
+extern CB_t *log_buf;
+
 #ifdef KL25Z
 #include "./uart.h"
 #include "./conversion.h"

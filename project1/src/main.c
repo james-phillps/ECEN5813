@@ -1,6 +1,4 @@
 #include "../include/common/project3.h"
-#include "../include/common/memory.h"
-//#include "../include/common/circbuf.h"
 
 #ifdef KL25Z
 #include "../include/CMSIS/core_cm0plus.h"
@@ -16,9 +14,8 @@ volatile SysTick_Type *mySysTick = (SysTick_Type *)0xE000E010;
 #endif
 
 CB_t *log_buf = NULL;
+CB_t *spi_buf_tx = NULL;
 uint16_t buf_length = 256;
-
-
 
 int main(void){
 #ifdef KL25Z
@@ -33,7 +30,6 @@ int main(void){
   NVIC_ClearPendingIRQ(RTC_Seconds_IRQn);
   NVIC_EnableIRQ(RTC_Seconds_IRQn);
 
-  uint8_t status = 0xFF;
   RTC_Init();
   led_config();
   set_off();
@@ -41,12 +37,10 @@ int main(void){
   UART_configure();
   timer_init();
   SPI_init();
-  set_yel();
-  status = nrf_read_status();
-  set_grn();
 #endif
-//Initialize logger buffer
+
 CB_init(&log_buf, buf_length);
+CB_init(&spi_buf_tx, buf_length);
 
 
 

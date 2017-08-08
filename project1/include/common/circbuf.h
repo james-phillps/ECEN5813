@@ -5,7 +5,11 @@
  * @author James Phillips
  * @date 6/28/2017
  */
+#ifndef CIRCBUF_H
+#define CIRCBUF_H
+
 #include <stdint.h>
+#include <stdlib.h>
 #ifdef KL25Z
 #include "../kl25z/MKL25Z4.h"
 #include "../CMSIS/core_cm0plus.h"
@@ -13,23 +17,22 @@ extern volatile SysTick_Type *mySysTick;
 #endif
 extern uint32_t latency[4];
 
- typedef struct{
+typedef struct{
      uint8_t *buff;
      uint8_t head;
      uint8_t tail;
      uint16_t size;
      uint16_t count;
- } CB_t;
+} CB_t;
 
  //typedef struct CB_t CB_t;
 
- typedef enum{
+typedef enum{
      Success,
      BuffFull,
      BuffEmpty,
      NullError
- } CB_status_e;
-
+} CB_status_e;
 
  /**@brief Adds data to circular buffer
   *Given a pointer to buffer and data to add, adds data to buffere and returns
@@ -101,3 +104,5 @@ CB_status_e CB_destroy(CB_t *buf_struct);
  * @return - Status of circular buffer or error codes
  */
 void CB_Latency(void);
+
+#endif

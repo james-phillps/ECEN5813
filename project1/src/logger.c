@@ -7,7 +7,6 @@
  */
 
 #include "../include/common/logger.h"
-extern CB_t *log_buf;
 
 void log_data(uint8_t * p, size_t length){
    uint8_t i = 0;
