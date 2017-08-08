@@ -13,8 +13,8 @@ uint8_t nrf_read_register(uint8_t reg){
   uint8_t reply = 0;
   cmd[0] |= (0x1F&reg);
   SPI_send_packet(cmd, 2);
-  reply = SPI0_D;
-  reply = SPI0_D;
+  reply = SPI_read_byte();
+  reply = SPI_read_byte();
 
   return reply;
 }
@@ -31,8 +31,9 @@ void nrf_write_register(uint8_t reg, uint8_t value){
 uint8_t nrf_read_status(void){
   uint8_t cmd = 0xFF;
   uint8_t reply = 0;
-  SPI_read_byte(cmd);
-  return reply = SPI0_D;
+  SPI_write_byte(cmd);
+  reply = SPI_read_byte();
+  return reply;
 }
 
 void nrf_write_config(uint8_t config){

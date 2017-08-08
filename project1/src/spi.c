@@ -50,16 +50,11 @@
    return;
  }
 
- void SPI_read_byte(uint8_t byte){
+ uint8_t SPI_read_byte(void){
    uint8_t data = 0;
-   SS_LO
-   while((SPI0_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK);
-   SPI0_D = byte;
-   while((SPI0_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK);
-   for(int i = 0; i < 250; i++){}
-   SS_HI
-
-   return;
+   while((SPI0_S & SPI_S_SPRF_MASK) != SPI_S_SPRF_MASK);
+   data = SPI0_D;
+   return data;
  }
 
 void SPI_write_byte(uint8_t byte){

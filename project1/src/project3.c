@@ -12,12 +12,6 @@ void project3(void){
   int32_t integer = 10000;
 
   //SPI_write_byte(0xAA);
-  uint8_t addr_init[5];
-  uint8_t addr_set[5] = {0xFF, 0xEE, 0xDD, 0xCC, 0xBB};
-  uint8_t addr_post[5];
-  nrf_read_TX_ADDR(addr_init);
-  nrf_write_TX_ADDR(addr_set);
-  nrf_read_TX_ADDR(addr_post);
   //log_data(data, 6);
   //LOG_RAW_FLUSH();
 
@@ -26,12 +20,101 @@ void project3(void){
 
   //LOG_RAW_INTEGER(integer);
   //LOG_RAW_FLUSH();
-    //profile_kl25z();
+  profile_kl25z();
+  test_nordic();
   #endif
 
   #ifdef BBB
     profile_BBB();
   #endif
+}
+
+void test_nordic(void){
+  #ifdef KL25Z
+  uint8_t addr_set[5] = {0xFF, 0xEE, 0xDD, 0xCC, 0xBB};
+  uint8_t addr_read[5] = {0xFF, 0xEE, 0xDD, 0xCC, 0xBB};
+  uint8_t reply = 0x00;
+  uint8_t config_write = 0x0A;
+  uint8_t rf_setup = 0x06;
+  uint8_t rf_ch = 0xAA;
+  uint8_t config_label[15] = "CONFIG Reply: ";
+  uint8_t status_label[9] = "STATUS: ";
+  uint8_t tx_addr_label[9] = "TX ADDR: ";
+  uint8_t setup_label[10] = "RF_SETUP: ";
+  uint8_t ch_label[7] = "RF CH: ";
+  uint8_t fifo_label[13] = "FIFO STATUS: ";
+  uint8_t value[32];
+  uint8_t value_len = 0;
+  uint8_t CRLF[2] = {0x0D, 0x0A};
+
+  //Test config
+  reply = nordic_test_config(config_write);
+  value_len = my_itoa(reply, value, 10);
+  UART_send_n(config_label, 15);
+  UART_send_n(value, value_len);
+  UART_send_n(CRLF, 2);
+
+  reply = nordic_test_status();
+  value_len = my_itoa(reply, value, 10);
+  UART_send_n(status_label, 9);
+  UART_send_n(value, value_len);
+  UART_send_n(CRLF, 2);
+
+  //nordic_test_TX_ADDR(addr_set);
+  //reply = nordic_test_rf_setup(rf_setup);
+  //reply = nordic_test_rf_ch(rf_ch);
+  //reply = nordic_test_fifo_status();
+
+  #endif
+  return;
+}
+
+uint8_t nordic_test_config(uint8_t config){
+  uint8_t config_reply = 0x00;
+
+  nrf_write_config(config);
+  config_reply = nrf_read_config();
+  return config_reply;
+}
+
+uint8_t nordic_test_status(void){
+  uint8_t status = 0;
+  status = nrf_read_status();
+  return status;
+}
+
+void nordic_test_TX_ADDR(uint8_t *addr){
+  uint8_t addr_post[5];
+
+  nrf_read_TX_ADDR(addr_post);
+  nrf_write_TX_ADDR(addr);
+  nrf_read_TX_ADDR(addr_post);
+
+
+  return;
+}
+
+uint8_t nordic_test_rf_setup(uint8_t rf_setup){
+  uint8_t setup = 0;
+  setup = nrf_read_rf_setup();
+  nrf_write_rf_setup(0x06);
+  setup = nrf_read_rf_setup();
+
+  return setup;
+}
+
+uint8_t nordic_test_rf_ch(uint8_t rf_ch){
+  uint8_t rf_ch_reply = 0;
+  rf_ch_reply = nrf_read_rf_ch();
+  nrf_write_rf_ch(rf_ch);
+  rf_ch_reply = nrf_read_rf_ch();
+  return rf_ch_reply;
+}
+
+uint8_t nordic_test_fifo_status(void){
+  uint8_t status = 0;
+  status = nrf_read_fifo_status();
+  return status;
 }
 
 void profile_kl25z(void){

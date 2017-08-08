@@ -18,7 +18,7 @@ extern CB_t *spi_buf_tx;
 
 void SPI_init(void);
 
-void SPI_read_byte(uint8_t byte);
+uint8_t SPI_read_byte(void);
 
 void SPI_write_byte(uint8_t byte);
 
